@@ -1,0 +1,5 @@
+name: VaultManager
+version: @version@
+main: op65n.tech.vaultmanager.VaultManagerPlugin
+api-version: 1.16
+author: Frcsty
