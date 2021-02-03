@@ -6,12 +6,14 @@ import me.mattstudios.mf.annotations.Default;
 import me.mattstudios.mf.base.CommandBase;
 import me.mattstudios.mfgui.gui.guis.Gui;
 import op65n.tech.vaultmanager.VaultManagerPlugin;
+import op65n.tech.vaultmanager.object.impl.PrivateVault;
 import op65n.tech.vaultmanager.object.menu.VaultMenu;
 import op65n.tech.vaultmanager.util.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 
 @Command("privatevault")
@@ -28,6 +30,7 @@ public final class PrivateVaultCommand extends CommandBase {
 
     @Default
     public void onVaultCommand(final Player player, final Integer index) {
+        final AtomicBoolean status = new AtomicBoolean(true);
         final VaultMenu menu = new VaultMenu(plugin, player);
 
         Function.perform(new BukkitRunnable() {
@@ -38,17 +41,28 @@ public final class PrivateVaultCommand extends CommandBase {
                             player,
                             configuration.getString("message.missing-vault-permission")
                     );
+
+                    status.set(false);
+                    System.out.println("no perm async");
                     return;
                 }
 
+                System.out.println("getting configuration");
                 final FileConfiguration configuration = File.getUserConfiguration(plugin, player);
-
-                menu.assignVault(Serializable.fromBase64(configuration.getString(String.format("vaults.%s", index))));
-                menu.constructMenu(index);
+                System.out.println("retrieved configuration");
+                final PrivateVault vault = Serializable.fromBase64(configuration.getString(String.format("vaults.%s", index)));
+                System.out.println("retrieved deserialized vault");
+                menu.assignVault(vault);
             }
         }).thenAccept((consumer) -> {
-            final Gui vaultGui = menu.getVaultGui();
+            if (!status.get()) {
+                System.out.println("no perm sync");
+                return;
+            }
+            menu.constructMenu(index);
+            System.out.println("constructed menu");
 
+            final Gui vaultGui = menu.getVaultGui();
             if (vaultGui == null) {
                 plugin.getLogger().log(Level.WARNING,
                         String.format("Failed to Construct & Open Private Vault num. %s for user %s", index, player.getName())
@@ -57,6 +71,7 @@ public final class PrivateVaultCommand extends CommandBase {
             }
 
             vaultGui.open(player);
+            System.out.println("opened menu");
         });
     }
 

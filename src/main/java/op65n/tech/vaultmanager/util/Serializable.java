@@ -64,6 +64,9 @@ public final class Serializable {
      */
     public static PrivateVault fromBase64(final String base64) {
         final PrivateVault result = new PrivateVault();
+        if (base64 == null || base64.isEmpty() || base64.isBlank())
+            return result;
+
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decode(base64));
         final BukkitObjectInputStream dataInputStream;
 
