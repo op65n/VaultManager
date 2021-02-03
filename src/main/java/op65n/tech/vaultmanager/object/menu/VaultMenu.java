@@ -49,7 +49,7 @@ public final class VaultMenu {
         menu.setCloseGuiAction(event -> {
             final String base64 = Serializable.toBase64(event.getInventory().getContents());
 
-            File.setUserConfiguration(plugin, player, index, base64);
+            File.setUserConfiguration(plugin, player, vault, index, base64);
         });
     }
 

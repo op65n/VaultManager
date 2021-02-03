@@ -1,6 +1,7 @@
 package op65n.tech.vaultmanager.util;
 
 import op65n.tech.vaultmanager.VaultManagerPlugin;
+import op65n.tech.vaultmanager.object.impl.PrivateVault;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -36,11 +37,12 @@ public final class File {
      * Saves the given serialized string to the user's vault file
      *
      * @param player desired user
-     * @param index of the updated {@link op65n.tech.vaultmanager.object.impl.PrivateVault}
+     * @param vault {@link op65n.tech.vaultmanager.object.impl.PrivateVault}
+     * @param index of the vault
      * @param base64 {@link String} of the serialized contents
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static void setUserConfiguration(final VaultManagerPlugin plugin, final Player player, final int index, final String base64) {
+    public static void setUserConfiguration(final VaultManagerPlugin plugin, final Player player, final PrivateVault vault, final int index, final String base64) {
         final java.io.File file = new java.io.File(plugin.getDataFolder(), String.format("storage/vault-%s.yml", player.getUniqueId().toString()));
 
         try {
@@ -53,7 +55,7 @@ public final class File {
         }
 
         final FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
-        configuration.set(String.format("vaults.%s", index), base64);
+        configuration.set(String.format("vaults.%s", vault.getVaultName(index)), base64);
 
         try {
             configuration.save(file);
