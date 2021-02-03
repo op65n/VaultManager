@@ -37,7 +37,7 @@ public final class Serializable {
         for (int index = 0; index < contents.length; index++) {
             final ItemStack item = contents[index];
 
-            if (item.getType() == Material.AIR)
+            if (item == null || item.getType() == Material.AIR)
                 continue;
 
             try {

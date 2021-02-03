@@ -40,13 +40,12 @@ public final class VaultMenu {
      */
     public void constructMenu(final int index) {
         this.menu = new Gui(
-                9,
+                6,
                 vault.getVaultName(index)
         );
 
         System.out.println("settings items");
-
-        menu.setItem(50, new GuiItem(new ItemStack(Material.BARRIER)));
+        //menu.setItem(50, new GuiItem(new ItemStack(Material.BARRIER)));
         System.out.println("set barrier item");
 
         vault.getContents().forEach((slot, item) ->
