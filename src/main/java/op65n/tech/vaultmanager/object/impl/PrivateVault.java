@@ -22,21 +22,12 @@ public final class PrivateVault {
     }
 
     /**
-     * Set's the {@link PrivateVault}'s name if the input {@link String}
-     * is valid
+     * Set's the custom name for this vault
      *
-     * @param vaultName new vault name
-     * @return confirmation {@link op65n.tech.vaultmanager.util.Nameable.Response} if the vault name was set successfully
+     * @param name of the vault
      */
-    public Nameable.Response setVaultName(final String vaultName) {
-        final Nameable.Response validity = Nameable.checkValidity(vaultName);
-
-        if (validity == Nameable.Response.VALID) {
-            this.vaultName = vaultName;
-            return Nameable.Response.VALID;
-        }
-
-        return validity;
+    public void setVaultName(final String name) {
+        this.vaultName = name;
     }
 
     /**

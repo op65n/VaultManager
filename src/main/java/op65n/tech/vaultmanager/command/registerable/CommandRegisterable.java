@@ -4,8 +4,8 @@ import me.mattstudios.mf.base.CommandManager;
 import me.mattstudios.mf.base.CompletionHandler;
 import op65n.tech.vaultmanager.VaultManagerPlugin;
 import op65n.tech.vaultmanager.command.impl.PrivateVaultCommand;
+import op65n.tech.vaultmanager.command.impl.PrivateVaultNameCommand;
 import op65n.tech.vaultmanager.registry.Registerable;
-import op65n.tech.vaultmanager.util.File;
 
 public final class CommandRegisterable implements Registerable {
 
@@ -20,7 +20,8 @@ public final class CommandRegisterable implements Registerable {
         final CommandManager manager = new CommandManager(plugin);
 
         manager.register(
-                new PrivateVaultCommand(plugin)
+                new PrivateVaultCommand(plugin),
+                new PrivateVaultNameCommand(plugin)
         );
 
         final CompletionHandler completionHandler = manager.getCompletionHandler();

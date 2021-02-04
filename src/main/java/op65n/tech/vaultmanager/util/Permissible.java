@@ -8,7 +8,7 @@ import java.util.Set;
 public final class Permissible {
 
     /**
-     * Checks if the user has the permission to access the desired {@link op65n.tech.vaultmanager.object.PlayerVault}
+     * Checks if the user has the permission to access the desired {@link op65n.tech.vaultmanager.object.impl.PrivateVault}
      *
      * @param player who's access needs to be checked
      * @param index  index of the specified {@link op65n.tech.vaultmanager.object.impl.PrivateVault}
@@ -42,7 +42,7 @@ public final class Permissible {
 
     }
 
-    private static enum PermissibleType {
+    public static enum PermissibleType {
 
         VAULT("vaultmanager.vault.access."),
         RENAME("vaultmanager.vault.rename"),
@@ -54,7 +54,7 @@ public final class Permissible {
             this.permission = permission;
         }
 
-        String getPermissionConstruction() {
+        public String getPermissionConstruction() {
             return this.permission;
         }
 

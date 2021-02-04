@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "op65n.tech.vaultmanager"
-version = "0.0.3-Alpha"
+version = "0.0.4-Alpha"
 
 repositories {
 	mavenCentral()

@@ -6,9 +6,7 @@ import op65n.tech.vaultmanager.VaultManagerPlugin;
 import op65n.tech.vaultmanager.object.impl.PrivateVault;
 import op65n.tech.vaultmanager.util.File;
 import op65n.tech.vaultmanager.util.Serializable;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public final class VaultMenu {
 
@@ -16,7 +14,6 @@ public final class VaultMenu {
     private final Player player;
 
     private PrivateVault vault;
-
     private Gui menu;
 
     public VaultMenu(final VaultManagerPlugin plugin, final Player player) {
@@ -34,6 +31,15 @@ public final class VaultMenu {
     }
 
     /**
+     * Assigns a name to the given vault
+     *
+     * @param name to be assigned
+     */
+    public void assignVaultName(final String name) {
+        this.vault.setVaultName(name);
+    }
+
+    /**
      * Constructs a menu from the given vault contents
      *
      * @param index {@link PrivateVault}'s index
@@ -44,19 +50,14 @@ public final class VaultMenu {
                 vault.getVaultName(index)
         );
 
-        System.out.println("settings items");
-        //menu.setItem(50, new GuiItem(new ItemStack(Material.BARRIER)));
-        System.out.println("set barrier item");
-
         vault.getContents().forEach((slot, item) ->
-            menu.setItem(slot, new GuiItem(item))
+                menu.setItem(slot, new GuiItem(item))
         );
-        System.out.println("set contents");
 
         menu.setCloseGuiAction(event -> {
             final String base64 = Serializable.toBase64(event.getInventory().getContents());
 
-            File.setUserConfiguration(plugin, player, vault, index, base64);
+            File.setUserConfiguration(plugin, player, index, base64);
         });
     }
 

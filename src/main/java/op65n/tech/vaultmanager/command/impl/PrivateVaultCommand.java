@@ -1,8 +1,8 @@
 package op65n.tech.vaultmanager.command.impl;
 
+import com.google.common.primitives.Ints;
 import me.mattstudios.mf.annotations.Alias;
 import me.mattstudios.mf.annotations.Command;
-import me.mattstudios.mf.annotations.Completion;
 import me.mattstudios.mf.annotations.Default;
 import me.mattstudios.mf.base.CommandBase;
 import me.mattstudios.mfgui.gui.guis.Gui;
@@ -17,6 +17,7 @@ import java.util.logging.Level;
 
 @Command("privatevault")
 @Alias("pv")
+@SuppressWarnings("UnstableApiUsage")
 public final class PrivateVaultCommand extends CommandBase {
 
     private final VaultManagerPlugin plugin;
@@ -28,29 +29,32 @@ public final class PrivateVaultCommand extends CommandBase {
     }
 
     @Default
-    public void onVaultCommand(final Player player, @Completion("#range:1-20") final Integer index) {
-        final VaultMenu menu = new VaultMenu(plugin, player);
+    public void onVaultCommand(final Player player, final String index) {
+        Task.async(() -> {
+            final VaultMenu menu = new VaultMenu(plugin, player);
+            final FileConfiguration configuration = File.getUserConfiguration(plugin, player);
 
-        Executor.async(() -> {
-            if (!Permissible.hasVaultAccess(player, index)) {
+            final int vaultPosition = Ints.tryParse(index) != null ? Integer.parseInt(index) : File.getVaultPositionByName(configuration, index);
+            if (!Permissible.hasVaultAccess(player, vaultPosition)) {
                 Message.send(
                         player,
-                        configuration.getString("message.missing-vault-permission")
+                        this.configuration.getString("message.missing-vault-permission")
                 );
                 return;
             }
 
-            final FileConfiguration configuration = File.getUserConfiguration(plugin, player);
-            final PrivateVault vault = Serializable.fromBase64(configuration.getString(String.format("vaults.%s", index)));
+            final PrivateVault vault = Serializable.fromBase64(configuration.getString(String.format("vaults.%s.contents", vaultPosition)));
 
             menu.assignVault(vault);
-            menu.constructMenu(index);
+            menu.assignVaultName(configuration.getString(String.format("vaults.%s.displayName", vaultPosition)));
 
-            Executor.queue(() -> {
+            menu.constructMenu(vaultPosition);
+
+            Task.queue(() -> {
                 final Gui vaultGui = menu.getVaultGui();
                 if (vaultGui == null) {
                     plugin.getLogger().log(Level.WARNING,
-                            String.format("Failed to Construct & Open Private Vault num. %s for user %s", index, player.getName())
+                            String.format("Failed to Construct & Open Private Vault num. %s for user %s", vaultPosition, player.getName())
                     );
                     return;
                 }
