@@ -7,7 +7,6 @@ import me.mattstudios.mf.annotations.Default;
 import me.mattstudios.mf.base.CommandBase;
 import me.mattstudios.mfgui.gui.guis.Gui;
 import op65n.tech.vaultmanager.VaultManagerPlugin;
-import op65n.tech.vaultmanager.object.impl.PrivateVault;
 import op65n.tech.vaultmanager.object.menu.VaultMenu;
 import op65n.tech.vaultmanager.util.*;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -34,6 +33,7 @@ public final class PrivateVaultCommand extends CommandBase {
             final VaultMenu menu = new VaultMenu(plugin, player);
             final FileConfiguration configuration = File.getUserConfiguration(plugin, player);
 
+            configuration.getKeys(true).forEach(System.out::println);
             final int vaultPosition = Ints.tryParse(index) != null ? Integer.parseInt(index) : File.getVaultPositionByName(configuration, index);
             if (!Permissible.hasVaultAccess(player, vaultPosition)) {
                 Message.send(
@@ -43,9 +43,7 @@ public final class PrivateVaultCommand extends CommandBase {
                 return;
             }
 
-            final PrivateVault vault = Serializable.fromBase64(configuration.getString(String.format("vaults.%s.contents", vaultPosition)));
-
-            menu.assignVault(vault);
+            menu.assignContents(Serializable.decodeBase64ToInventory(configuration.getString(String.format("vaults.%s.contents", vaultPosition))));
             menu.assignVaultName(configuration.getString(String.format("vaults.%s.displayName", vaultPosition)));
 
             menu.constructMenu(vaultPosition);

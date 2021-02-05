@@ -6,14 +6,17 @@ import op65n.tech.vaultmanager.VaultManagerPlugin;
 import op65n.tech.vaultmanager.object.impl.PrivateVault;
 import op65n.tech.vaultmanager.util.File;
 import op65n.tech.vaultmanager.util.Serializable;
+import op65n.tech.vaultmanager.util.Task;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public final class VaultMenu {
 
     private final VaultManagerPlugin plugin;
     private final Player player;
-
-    private PrivateVault vault;
+    private final PrivateVault vault = new PrivateVault();
     private Gui menu;
 
     public VaultMenu(final VaultManagerPlugin plugin, final Player player) {
@@ -21,13 +24,9 @@ public final class VaultMenu {
         this.player = player;
     }
 
-    /**
-     * Assigns a {@link PrivateVault} to be used within this menu
-     *
-     * @param vault to be assigned to this menu
-     */
-    public void assignVault(final PrivateVault vault) {
-        this.vault = vault;
+    public void assignContents(final List<ItemStack> contents) {
+        for (int i = 0; i < contents.size(); i++)
+            vault.setContent(i, contents.get(i));
     }
 
     /**
@@ -55,9 +54,11 @@ public final class VaultMenu {
         );
 
         menu.setCloseGuiAction(event -> {
-            final String base64 = Serializable.toBase64(event.getInventory().getContents());
+            Task.async(() -> {
+                final String base64 = Serializable.encodeInventoryToBase64(event.getInventory().getContents());
 
-            File.setUserConfiguration(plugin, player, index, base64);
+                File.setUserConfiguration(plugin, player, index, base64);
+            });
         });
     }
 

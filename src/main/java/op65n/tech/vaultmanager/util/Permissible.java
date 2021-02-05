@@ -5,6 +5,7 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.Set;
 
+@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public final class Permissible {
 
     /**
@@ -42,7 +43,7 @@ public final class Permissible {
 
     }
 
-    public static enum PermissibleType {
+    public enum PermissibleType {
 
         VAULT("vaultmanager.vault.access."),
         RENAME("vaultmanager.vault.rename"),

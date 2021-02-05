@@ -1,6 +1,5 @@
 package op65n.tech.vaultmanager.object.impl;
 
-import op65n.tech.vaultmanager.util.Nameable;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;

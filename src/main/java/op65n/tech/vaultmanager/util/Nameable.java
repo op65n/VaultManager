@@ -19,7 +19,7 @@ public final class Nameable {
         return Response.UNKNOWN;
     }
 
-    public static enum Response {
+    public enum Response {
 
         // Confirmation
         VALID(null),

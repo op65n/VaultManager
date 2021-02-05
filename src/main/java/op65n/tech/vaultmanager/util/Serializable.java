@@ -2,6 +2,8 @@ package op65n.tech.vaultmanager.util;
 
 import op65n.tech.vaultmanager.object.impl.PrivateVault;
 import org.bukkit.Material;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
@@ -10,6 +12,9 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
 
 public final class Serializable {
 
@@ -83,6 +88,29 @@ public final class Serializable {
         }
 
         return result;
+    }
+
+    public static String encodeInventoryToBase64(final ItemStack[] contents) {
+        final YamlConfiguration configuration = new YamlConfiguration();
+
+        configuration.set("contents", contents);
+        return Base64.getEncoder().encodeToString(configuration.saveToString().getBytes());
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<ItemStack> decodeBase64ToInventory(final String base64) {
+        final YamlConfiguration configuration = new YamlConfiguration();
+
+        if (base64 == null || base64.isEmpty() || base64.isBlank())
+            return Collections.emptyList();
+
+        try {
+            configuration.loadFromString(base64);
+        } catch (final InvalidConfigurationException exception) {
+            return Collections.emptyList();
+        }
+
+        return ((List<ItemStack>) configuration.get("contents"));
     }
 
 }
