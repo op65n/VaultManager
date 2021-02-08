@@ -37,12 +37,19 @@ public final class PrivateVaultCommand extends CommandBase {
         Task.async(() -> {
             final Keyable<?> key = Ints.tryParse(keyObject) != null ? new PositionKey(Integer.parseInt(keyObject)) : new NameKey(keyObject);
             final Integer position = getVaultPosition(player, key);
-
             if (position == null) {
                 Base.sendMessage(
                         player,
                         configuration.getString("message.invalid-vault-identifier"),
                         "{identifier}", key.getKey()
+                );
+                return;
+            }
+
+            if (position <= 0) {
+                Base.sendMessage(
+                        player,
+                        configuration.getString("message.invalid-position-number")
                 );
                 return;
             }
@@ -55,7 +62,8 @@ public final class PrivateVaultCommand extends CommandBase {
                 return;
             }
 
-            final VaultSnapshot vaultSnapshot = new VaultEditSessionImplementation(dataProvider, player.getUniqueId(), position);
+            final int size = Permissible.getAllowedVaultSize(player);
+            final VaultSnapshot vaultSnapshot = new VaultEditSessionImplementation(dataProvider, player.getUniqueId(), position, size);
             final Gui menu = vaultSnapshot.construct(player.getName());
             Task.queue(() ->
                     menu.open(player)

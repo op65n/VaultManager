@@ -10,11 +10,9 @@ import op65n.tech.vaultmanager.VaultManagerPlugin;
 import op65n.tech.vaultmanager.data.object.VaultSnapshot;
 import op65n.tech.vaultmanager.data.object.impl.VaultEditSessionImplementation;
 import op65n.tech.vaultmanager.data.provider.DataProvider;
-import op65n.tech.vaultmanager.util.Base;
 import op65n.tech.vaultmanager.util.Task;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -33,10 +31,15 @@ public final class InspectPrivateVaultCommand extends CommandBase {
     @Permission("vaultmanager.command.admin.inspect")
     public void onInspectCommand(final Player player, final String target, final Integer position, final Boolean edit) {
         Task.async(() -> {
+            boolean editable = edit;
+            if (!player.hasPermission("vaultmanager.command.admin.edit")) {
+                editable = false;
+            }
+
             final OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(target);
             final UUID identifier = offlineTarget.getUniqueId();
 
-            final VaultSnapshot vaultSnapshot = !edit ? this.dataProvider.getVaultSnapshot(identifier, position) : new VaultEditSessionImplementation(dataProvider, identifier, position);
+            final VaultSnapshot vaultSnapshot = !editable ? this.dataProvider.getVaultSnapshot(identifier, position) : new VaultEditSessionImplementation(dataProvider, identifier, position, 6);
             final Gui snapshotMenu = vaultSnapshot.construct(target);
             Task.queue(() ->
                     snapshotMenu.open(player)

@@ -18,10 +18,11 @@ public final class VaultEditSessionImplementation implements VaultSnapshot {
 
     private final UUID identifier;
     private final int position;
+    private final int size;
     private final String name;
     private final Map<Integer, ItemStack> contents;
 
-    public VaultEditSessionImplementation(@NotNull final DataProvider provider, @NotNull final UUID identifier, final int position) {
+    public VaultEditSessionImplementation(@NotNull final DataProvider provider, @NotNull final UUID identifier, final int position, final int size) {
         this.provider = provider;
         final VaultSnapshot vaultSnapshot = provider.getVaultSnapshot(identifier, position);
 
@@ -29,6 +30,7 @@ public final class VaultEditSessionImplementation implements VaultSnapshot {
         this.position = vaultSnapshot.getPosition();
         this.name = vaultSnapshot.getDisplayName();
         this.contents = vaultSnapshot.getContents();
+        this.size = size;
     }
 
     @NotNull
@@ -57,7 +59,7 @@ public final class VaultEditSessionImplementation implements VaultSnapshot {
     @Override
     public @NotNull Gui construct(@NotNull final String ownerName) {
         final Gui gui = new Gui(
-                6,
+                size,
                 this.name == null ? String.format("Vault #%s", this.position) : String.format("Vault %s (#%s)", this.name, this.position)
         );
 

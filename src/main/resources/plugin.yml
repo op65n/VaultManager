@@ -3,3 +3,17 @@ version: @version@
 main: op65n.tech.vaultmanager.VaultManagerPlugin
 api-version: 1.16
 author: Frcsty
+
+permissions:
+  vaultmanager.command.admin.inspect:
+    description: Grants access to inspect command (/inspectvault <target> <position> <editable>)
+  vaultmanager.command.admin.edit:
+    description: Allows the inspector to edit the viewing vault
+  vaultmanager.vault.rename:
+    description: Grants access to the ability to rename vaults
+  vaultmanager.vault.access.<position>:
+    description: Grants access to the vault at the given position
+  vaultmanager.vault.size.<size>:
+    description: Determines the allowed size for any given vault
+  vaultmanager.vault.range.<range>:
+    description: Uses a range style to grant vault access (0 -> range - inclusive)
