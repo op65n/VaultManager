@@ -25,7 +25,6 @@ public final class VaultEditSessionImplementation implements VaultSnapshot {
         this.provider = provider;
         final VaultSnapshot vaultSnapshot = provider.getVaultSnapshot(identifier, position);
 
-        assert vaultSnapshot != null;
         this.identifier = vaultSnapshot.getUniqueIdentifier();
         this.position = vaultSnapshot.getPosition();
         this.name = vaultSnapshot.getDisplayName();
@@ -58,12 +57,12 @@ public final class VaultEditSessionImplementation implements VaultSnapshot {
     @Override
     public @NotNull Gui construct(@NotNull final String ownerName) {
         final Gui gui = new Gui(
-                9,
-                this.name == null ? String.format("Vault #%s", position) : this.name
+                6,
+                this.name == null ? String.format("Vault #%s", this.position) : String.format("Vault %s (#%s)", this.name, this.position)
         );
 
         gui.setCloseGuiAction(event ->
-                provider.setVaultContents(identifier, position, getInventoryContents(gui.getGuiItems()))
+                provider.setVaultContents(this.identifier, this.position, getInventoryContents(event.getInventory().getContents()))
         );
 
         this.contents.forEach((slot, item) -> gui.setItem(slot, new GuiItem(item)));
@@ -71,13 +70,13 @@ public final class VaultEditSessionImplementation implements VaultSnapshot {
         return gui;
     }
 
-    private Map<Integer, ItemStack> getInventoryContents(final Map<Integer, GuiItem> contents) {
+    private Map<Integer, ItemStack> getInventoryContents(final ItemStack[] contents) {
         final Map<Integer, ItemStack> result = new HashMap<>();
 
-        for (final int slot : contents.keySet()) {
-            final GuiItem item = contents.get(slot);
+        for (int slot = 0; slot < contents.length; slot++) {
+            final ItemStack item = contents[slot];
 
-            result.put(slot, item.getItemStack());
+            result.put(slot, item);
         }
 
         return result;

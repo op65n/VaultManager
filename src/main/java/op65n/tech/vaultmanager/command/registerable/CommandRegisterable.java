@@ -5,12 +5,10 @@ import op65n.tech.vaultmanager.VaultManagerPlugin;
 import op65n.tech.vaultmanager.command.impl.admin.InspectPrivateVaultCommand;
 import op65n.tech.vaultmanager.command.impl.user.PrivateVaultCommand;
 import op65n.tech.vaultmanager.command.impl.user.PrivateVaultNameCommand;
-import op65n.tech.vaultmanager.registry.Registerable;
 import org.jetbrains.annotations.NotNull;
 
-public final class CommandRegisterable implements Registerable {
+public final class CommandRegisterable {
 
-    @Override
     public void register(@NotNull final VaultManagerPlugin plugin) {
         final CommandManager manager = new CommandManager(plugin);
 

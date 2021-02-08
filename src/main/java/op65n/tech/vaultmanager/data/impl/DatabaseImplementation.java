@@ -23,7 +23,7 @@ public final class DatabaseImplementation implements DataProvider {
         );
     }
 
-    @Nullable
+    @NotNull
     @Override
     public VaultSnapshot getVaultSnapshot(@NotNull final UUID identifier, final int position) {
         return null;

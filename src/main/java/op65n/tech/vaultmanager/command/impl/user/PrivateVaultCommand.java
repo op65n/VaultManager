@@ -1,5 +1,6 @@
 package op65n.tech.vaultmanager.command.impl.user;
 
+import com.google.common.primitives.Ints;
 import me.mattstudios.mf.annotations.Alias;
 import me.mattstudios.mf.annotations.Command;
 import me.mattstudios.mf.annotations.Default;
@@ -18,6 +19,7 @@ import op65n.tech.vaultmanager.util.key.impl.PositionKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+@SuppressWarnings("UnstableApiUsage")
 @Command("privatevault")
 @Alias("pv")
 public final class PrivateVaultCommand extends CommandBase {
@@ -31,9 +33,9 @@ public final class PrivateVaultCommand extends CommandBase {
     }
 
     @Default
-    public void onVaultCommand(final Player player, final Object keyObject) {
+    public void onVaultCommand(final Player player, final String keyObject) {
         Task.async(() -> {
-            final Keyable<?> key = keyObject instanceof Integer ? new PositionKey((int) keyObject) : new NameKey((String) keyObject);
+            final Keyable<?> key = Ints.tryParse(keyObject) != null ? new PositionKey(Integer.parseInt(keyObject)) : new NameKey(keyObject);
             final Integer position = getVaultPosition(player, key);
 
             if (position == null) {
@@ -45,7 +47,7 @@ public final class PrivateVaultCommand extends CommandBase {
                 return;
             }
 
-            if (Permissible.hasVaultAccess(player, position)) {
+            if (!Permissible.hasVaultAccess(player, position)) {
                 Base.sendMessage(
                         player,
                         configuration.getString("message.no-vault-access")

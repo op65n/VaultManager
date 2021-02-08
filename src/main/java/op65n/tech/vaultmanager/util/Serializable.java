@@ -1,6 +1,5 @@
 package op65n.tech.vaultmanager.util;
 
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -29,20 +28,16 @@ public final class Serializable {
 
         final YamlConfiguration configuration = new YamlConfiguration();
         try {
-            configuration.loadFromString(serialization);
+            configuration.loadFromString(new String(Base64.getDecoder().decode(serialization)));
         } catch (final InvalidConfigurationException exception) {
             return Collections.emptyMap();
         }
 
-        final ConfigurationSection section = configuration.getConfigurationSection("contents");
-        if (section == null)
-            return Collections.emptyMap();
-
         final Map<Integer, ItemStack> contents = new HashMap<>();
-        for (final String key : section.getKeys(false)) {
+        for (final String key : configuration.getKeys(false)) {
             contents.put(
                     Integer.parseInt(key),
-                    section.getItemStack(key)
+                    configuration.getItemStack(key)
             );
         }
 
@@ -57,7 +52,7 @@ public final class Serializable {
      * @return A string containing the serialized contents
      */
     public static String serialize(@NotNull final Map<Integer, ItemStack> contents) {
-        if (contents.isEmpty())
+        if (contents.size() == 0)
             return EMPTY_STRING;
 
         return handleSerialization(contents);
@@ -76,7 +71,7 @@ public final class Serializable {
             final ItemStack item = contents.get(slot);
 
             configuration.set(
-                    String.format("contents.%s", slot),
+                    String.valueOf(slot),
                     item
             );
         }

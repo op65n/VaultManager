@@ -4,15 +4,13 @@ import op65n.tech.vaultmanager.VaultManagerPlugin;
 import op65n.tech.vaultmanager.data.impl.DatabaseImplementation;
 import op65n.tech.vaultmanager.data.impl.FileImplementation;
 import op65n.tech.vaultmanager.data.provider.DataProvider;
-import op65n.tech.vaultmanager.registry.Registerable;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("ConstantConditions")
-public final class DataRegisterable implements Registerable {
+public final class DataRegisterable {
 
     private DataProvider provider;
 
-    @Override
     public void register(@NotNull final VaultManagerPlugin plugin) {
         final String dataProvider = plugin.getConfig().getString("settings.data-provider", "FILE");
 

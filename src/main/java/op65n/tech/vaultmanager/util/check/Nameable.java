@@ -5,9 +5,12 @@ import java.util.regex.Pattern;
 
 public final class Nameable {
 
-    private static final Pattern PATTERN = Pattern.compile("/\\^\\w{3,16}\\$/i");
+    private static final Pattern PATTERN = Pattern.compile("^\\w{3,16}$");
 
     public static Response checkValidity(final String input) {
+        if (input == null || input.isEmpty())
+            return Response.INVALID;
+
         final Matcher matcher = PATTERN.matcher(input);
 
         if (matcher.matches())
@@ -26,6 +29,7 @@ public final class Nameable {
 
         // Denial
         LENGTH("deny-response.length"),
+        INVALID("deny-response.invalid"),
         UNKNOWN("deny-response.unknown");
 
         private final String path;

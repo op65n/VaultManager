@@ -2,7 +2,6 @@ settings:
   data-provider: FILE # DATABASE
 
 message:
-  user-missing-access: "&cUser &7{target-name} &cdoes not have access to this vault! Resulting VaultSnapshot is null."
   invalid-vault-identifier: "&cThe given identifier &7'{identifier}' &cdoes not match any registered vault!"
   no-vault-access: "&cYou do not have permission to access this vault."
   successfully-changed-name: "&aYou have successfully changed the vault at position &7{vault-position}&a's name to &7{vault-name}&a."

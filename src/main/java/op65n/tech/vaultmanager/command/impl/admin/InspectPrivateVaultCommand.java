@@ -24,11 +24,9 @@ import java.util.UUID;
 public final class InspectPrivateVaultCommand extends CommandBase {
 
     private final DataProvider dataProvider;
-    private final FileConfiguration configuration;
 
     public InspectPrivateVaultCommand(final VaultManagerPlugin plugin) {
         this.dataProvider = plugin.getDataProvider();
-        this.configuration = plugin.getConfig();
     }
 
     @Default
@@ -39,15 +37,6 @@ public final class InspectPrivateVaultCommand extends CommandBase {
             final UUID identifier = offlineTarget.getUniqueId();
 
             final VaultSnapshot vaultSnapshot = !edit ? this.dataProvider.getVaultSnapshot(identifier, position) : new VaultEditSessionImplementation(dataProvider, identifier, position);
-            if (vaultSnapshot == null) {
-                Base.sendMessage(
-                        player,
-                        configuration.getString("message.user-missing-access"),
-                        "{target-name}", offlineTarget.getName()
-                );
-                return;
-            }
-
             final Gui snapshotMenu = vaultSnapshot.construct(target);
             Task.queue(() ->
                     snapshotMenu.open(player)

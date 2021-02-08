@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface DataProvider {
 
-    @Nullable
+    @NotNull
     VaultSnapshot getVaultSnapshot(@NotNull final UUID identifier, final int position);
 
     Integer getVaultPositionByName(@NotNull final UUID identifier, @NotNull final String name);

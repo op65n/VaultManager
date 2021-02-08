@@ -10,10 +10,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
@@ -31,14 +31,17 @@ public final class FileImplementation implements DataProvider {
         this.plugin = plugin;
     }
 
-    @Nullable
+    @NotNull
     @Override
     public VaultSnapshot getVaultSnapshot(@NotNull final UUID identifier, final int position) {
         final FileConfiguration configuration = getUserConfiguration(identifier);
         final ConfigurationSection vaultSection = configuration.getConfigurationSection(String.format("vault.%s", position));
 
         if (vaultSection == null)
-            return null;
+            return new VaultSnapshotImplementation(
+                    identifier, position,
+                    null, Collections.emptyMap()
+            );
 
         return new VaultSnapshotImplementation(
                 identifier, position,

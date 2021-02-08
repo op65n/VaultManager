@@ -5,6 +5,7 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.Set;
 
+@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public final class Permissible {
 
     /**

@@ -31,7 +31,7 @@ public final class PrivateVaultNameCommand extends CommandBase {
     public void onRenameCommand(final Player player, final Integer position, final String name) {
         Task.async(() -> {
             final UUID identifier = player.getUniqueId();
-            if (Permissible.hasVaultAccess(player, position)) {
+            if (!Permissible.hasVaultAccess(player, position)) {
                 Base.sendMessage(
                         player,
                         configuration.getString("message.no-vault-access")

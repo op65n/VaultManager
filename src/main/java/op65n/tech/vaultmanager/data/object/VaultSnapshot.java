@@ -25,7 +25,7 @@ public interface VaultSnapshot {
     @NotNull
     default Gui construct(@NotNull final String ownerName) {
         final Gui menu = new Gui(
-                9,
+                6,
                 getDisplayName() == null ? String.format("Vault #%s - %s", getPosition(), ownerName) : String.format("Vault %s (#%s) - %s", getDisplayName(), getPosition(), ownerName)
         );
 
