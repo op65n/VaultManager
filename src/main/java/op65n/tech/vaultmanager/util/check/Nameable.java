@@ -1,4 +1,4 @@
-package op65n.tech.vaultmanager.util;
+package op65n.tech.vaultmanager.util.check;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,22 +25,22 @@ public final class Nameable {
         VALID(null),
 
         // Denial
-        LENGTH("The given name is too short, or too long."),
-        UNKNOWN("The given name was rejected for an unknown reason, contact an Administrator if you think this is false.")
-        ;
+        LENGTH("deny-response.length"),
+        UNKNOWN("deny-response.unknown");
 
-        private final String reason;
-        Response(final String reason) {
-            this.reason = reason;
+        private final String path;
+
+        Response(final String path) {
+            this.path = path;
         }
 
         /**
-         * Returns the reason for the denial
+         * Returns the path of reason for the denial
          *
-         * @return {@link String} reason for name denial
+         * @return {@link String} path to the reason for name denial
          */
-        public String getReason() {
-            return this.reason;
+        public String getReasonPath() {
+            return this.path;
         }
     }
 

@@ -1,18 +1,17 @@
-package op65n.tech.vaultmanager.util;
+package op65n.tech.vaultmanager.util.check;
 
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.Set;
 
-@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public final class Permissible {
 
     /**
-     * Checks if the user has the permission to access the desired {@link op65n.tech.vaultmanager.object.impl.PrivateVault}
+     * Checks if the user has the permission to access the desired vault
      *
      * @param player who's access needs to be checked
-     * @param index  index of the specified {@link op65n.tech.vaultmanager.object.impl.PrivateVault}
+     * @param index  index of the specified vault
      * @return {@link Boolean} depending on if the user has specific vault access or not
      */
     public static boolean hasVaultAccess(final Player player, final int index) {

@@ -1,116 +1,87 @@
 package op65n.tech.vaultmanager.util;
 
-import op65n.tech.vaultmanager.object.impl.PrivateVault;
-import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Base64;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class Serializable {
 
     private static final String EMPTY_STRING = "";
 
     /**
-     * Serializes the given {@link ItemStack[]} and returns
-     * the serialized {@link String} for storing
+     * Deserializes the given contents {@link String} and returns them as a map
      *
-     * @param contents {@link ItemStack[]} to be serialized
-     * @return Base64 {@link String} from the given vault or empty string if an issue occurred
+     * @param serialization {@link String} to be deserialized
+     * @return {@link Map} of the deserialized contents
      */
-    public static String toBase64(final ItemStack[] contents) {
-        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        final BukkitObjectOutputStream dataOutputStream;
+    @NotNull
+    public static Map<Integer, ItemStack> deserialize(@Nullable final String serialization) {
+        if (serialization == null || serialization.isEmpty())
+            return Collections.emptyMap();
 
+        final YamlConfiguration configuration = new YamlConfiguration();
         try {
-            dataOutputStream = new BukkitObjectOutputStream(outputStream);
-
-            dataOutputStream.writeInt(contents.length);
-        } catch (final IOException exception) {
-            return EMPTY_STRING;
+            configuration.loadFromString(serialization);
+        } catch (final InvalidConfigurationException exception) {
+            return Collections.emptyMap();
         }
 
-        for (int index = 0; index < contents.length; index++) {
-            final ItemStack item = contents[index];
+        final ConfigurationSection section = configuration.getConfigurationSection("contents");
+        if (section == null)
+            return Collections.emptyMap();
 
-            if (item == null || item.getType() == Material.AIR)
-                continue;
-
-            try {
-                dataOutputStream.writeInt(index);
-                dataOutputStream.writeObject(item);
-            } catch (final IOException ignored) {
-            }
+        final Map<Integer, ItemStack> contents = new HashMap<>();
+        for (final String key : section.getKeys(false)) {
+            contents.put(
+                    Integer.parseInt(key),
+                    section.getItemStack(key)
+            );
         }
 
-        try {
-            dataOutputStream.close();
-        } catch (final IOException exception) {
-            return EMPTY_STRING;
-        }
-
-        return Base64Coder.encodeLines(outputStream.toByteArray());
+        return contents;
     }
 
     /**
-     * Deserializes a given Base64 to a {@link PrivateVault} object
+     * Returns a serialized {@link String} from the given {@link Map}
+     * or an empty string if the given contents are empty
      *
-     * @param base64 {@link String} to be deserialized into a {@link PrivateVault}
-     * @return {@link PrivateVault} deserialized from the input Base64 {@link String}
+     * @param contents to be serialized
+     * @return A string containing the serialized contents
      */
-    public static PrivateVault fromBase64(final String base64) {
-        final PrivateVault result = new PrivateVault();
-        if (base64 == null || base64.isEmpty() || base64.isBlank())
-            return result;
+    public static String serialize(@NotNull final Map<Integer, ItemStack> contents) {
+        if (contents.isEmpty())
+            return EMPTY_STRING;
 
-        final ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decode(base64));
-        final BukkitObjectInputStream dataInputStream;
-
-        try {
-            dataInputStream = new BukkitObjectInputStream(inputStream);
-
-            for (int index = 0; index < dataInputStream.readInt(); index++) {
-                result.setContent(dataInputStream.readInt(), (ItemStack) dataInputStream.readObject());
-            }
-
-            dataInputStream.close();
-        } catch (final IOException | ClassNotFoundException exception) {
-            return result;
-        }
-
-        return result;
+        return handleSerialization(contents);
     }
 
-    public static String encodeInventoryToBase64(final ItemStack[] contents) {
+    /**
+     * Serializes the given {@link Map} to a {@link String}
+     *
+     * @param contents to be serialized
+     * @return A string containing the serialized contents
+     */
+    private static String handleSerialization(@NotNull final Map<Integer, ItemStack> contents) {
         final YamlConfiguration configuration = new YamlConfiguration();
 
-        configuration.set("contents", contents);
+        for (final int slot : contents.keySet()) {
+            final ItemStack item = contents.get(slot);
+
+            configuration.set(
+                    String.format("contents.%s", slot),
+                    item
+            );
+        }
+
         return Base64.getEncoder().encodeToString(configuration.saveToString().getBytes());
-    }
-
-    @SuppressWarnings("unchecked")
-    public static List<ItemStack> decodeBase64ToInventory(final String base64) {
-        final YamlConfiguration configuration = new YamlConfiguration();
-
-        if (base64 == null || base64.isEmpty() || base64.isBlank())
-            return Collections.emptyList();
-
-        try {
-            configuration.loadFromString(base64);
-        } catch (final InvalidConfigurationException exception) {
-            return Collections.emptyList();
-        }
-
-        return ((List<ItemStack>) configuration.get("contents"));
     }
 
 }
