@@ -1,6 +1,7 @@
 package op65n.tech.vaultmanager;
 
 import op65n.tech.vaultmanager.command.registerable.CommandRegisterable;
+import op65n.tech.vaultmanager.command.registerable.completion.CompletionCache;
 import op65n.tech.vaultmanager.data.provider.DataProvider;
 import op65n.tech.vaultmanager.data.registerable.DataRegisterable;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,6 +28,11 @@ public final class VaultManagerPlugin extends JavaPlugin {
     @NotNull
     public DataProvider getDataProvider() {
         return this.dataRegisterable.getDataProvider();
+    }
+
+    @NotNull
+    public CompletionCache getCompletionCache() {
+        return this.commandRegisterable.getCompletionCache();
     }
 
 }

@@ -3,10 +3,12 @@ package op65n.tech.vaultmanager.command.impl.user;
 import com.google.common.primitives.Ints;
 import me.mattstudios.mf.annotations.Alias;
 import me.mattstudios.mf.annotations.Command;
+import me.mattstudios.mf.annotations.CompleteFor;
 import me.mattstudios.mf.annotations.Default;
 import me.mattstudios.mf.base.CommandBase;
 import me.mattstudios.mfgui.gui.guis.Gui;
 import op65n.tech.vaultmanager.VaultManagerPlugin;
+import op65n.tech.vaultmanager.command.registerable.completion.CompletionCache;
 import op65n.tech.vaultmanager.data.object.VaultSnapshot;
 import op65n.tech.vaultmanager.data.object.impl.VaultEditSessionImplementation;
 import op65n.tech.vaultmanager.data.provider.DataProvider;
@@ -16,8 +18,12 @@ import op65n.tech.vaultmanager.util.check.Permissible;
 import op65n.tech.vaultmanager.util.key.Keyable;
 import op65n.tech.vaultmanager.util.key.impl.NameKey;
 import op65n.tech.vaultmanager.util.key.impl.PositionKey;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+
+import java.util.Collections;
+import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
 @Command("privatevault")
@@ -26,10 +32,12 @@ public final class PrivateVaultCommand extends CommandBase {
 
     private final DataProvider dataProvider;
     private final FileConfiguration configuration;
+    private final CompletionCache completionCache;
 
     public PrivateVaultCommand(final VaultManagerPlugin plugin) {
         this.dataProvider = plugin.getDataProvider();
         this.configuration = plugin.getConfig();
+        this.completionCache = plugin.getCompletionCache();
     }
 
     @Default
@@ -69,6 +77,13 @@ public final class PrivateVaultCommand extends CommandBase {
                     menu.open(player)
             );
         });
+    }
+
+    @CompleteFor("pv")
+    private List<String> completion(final List<String> arguments, final CommandSender sender) {
+        if (!(sender instanceof Player)) return Collections.emptyList();
+
+        return this.completionCache.getCompletionsFor(((Player) sender).getUniqueId());
     }
 
     /**

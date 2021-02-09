@@ -1,17 +1,19 @@
 package op65n.tech.vaultmanager.command.registerable;
 
 import me.mattstudios.mf.base.CommandManager;
-import me.mattstudios.mf.base.CompletionHandler;
 import me.mattstudios.mf.base.MessageHandler;
 import op65n.tech.vaultmanager.VaultManagerPlugin;
 import op65n.tech.vaultmanager.command.impl.admin.InspectPrivateVaultCommand;
 import op65n.tech.vaultmanager.command.impl.user.PrivateVaultCommand;
 import op65n.tech.vaultmanager.command.impl.user.PrivateVaultNameCommand;
+import op65n.tech.vaultmanager.command.registerable.completion.CompletionCache;
 import op65n.tech.vaultmanager.util.Base;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 public final class CommandRegisterable {
+
+    private final CompletionCache completionCache = new CompletionCache();
 
     public void register(@NotNull final VaultManagerPlugin plugin) {
         final CommandManager manager = new CommandManager(plugin);
@@ -22,12 +24,6 @@ public final class CommandRegisterable {
                 new PrivateVaultCommand(plugin),
                 new PrivateVaultNameCommand(plugin)
         );
-
-        final CompletionHandler completionHandler = manager.getCompletionHandler();
-        completionHandler.register("#vaults", resolver -> {
-
-            return null;
-        });
 
         final MessageHandler messageHandler = manager.getMessageHandler();
         final FileConfiguration configuration = plugin.getConfig();
@@ -40,6 +36,10 @@ public final class CommandRegisterable {
                     )
             );
         }
+    }
+
+    public CompletionCache getCompletionCache() {
+        return this.completionCache;
     }
 
     private enum MessageIdentifier {
