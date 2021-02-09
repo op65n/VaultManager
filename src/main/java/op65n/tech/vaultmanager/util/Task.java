@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+@SuppressWarnings("deprecation")
 public final class Task {
 
     private static final VaultManagerPlugin PLUGIN = JavaPlugin.getPlugin(VaultManagerPlugin.class);

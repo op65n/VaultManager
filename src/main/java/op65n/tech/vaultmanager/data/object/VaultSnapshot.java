@@ -11,17 +11,40 @@ import java.util.UUID;
 
 public interface VaultSnapshot {
 
-    @NotNull
-    UUID getUniqueIdentifier();
+    /**
+     * Returns the owning player's {@link UUID}
+     *
+     * @return {@link UUID} of the owning player
+     */
+    @NotNull UUID getUniqueIdentifier();
 
+    /**
+     * Returns the vault's position
+     *
+     * @return the index position of the vault
+     */
     int getPosition();
 
-    @Nullable
-    String getDisplayName();
+    /**
+     * Returns the vault's custom name or null if not present
+     *
+     * @return vault's custom name or null
+     */
+    @Nullable String getDisplayName();
 
-    @NotNull
-    Map<Integer, ItemStack> getContents();
+    /**
+     * Returns the vault's contents or an empty map
+     *
+     * @return contents of the vault or an empty map
+     */
+    @NotNull Map<Integer, ItemStack> getContents();
 
+    /**
+     * Constructs an inspect menu as a default
+     *
+     * @param ownerName name of the given player
+     * @return A gui constructed from the vault contents
+     */
     @NotNull
     default Gui construct(@NotNull final String ownerName) {
         final Gui menu = new Gui(

@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 public final class Base {
 
     private static final Pattern HEX_PATTERN = Pattern.compile("#([A-Fa-f0-9]){6}");
@@ -58,6 +59,13 @@ public final class Base {
         sender.sendMessage(translate(replaceString(message, replacements)));
     }
 
+    /**
+     * Replaces a list with the given {@link Object...} replacement pairs
+     *
+     * @param input list of values
+     * @param values of replacement pairs
+     * @return Input list with the given values replaced
+     */
     public static List<String> replaceList(final List<String> input, Object... values) {
         if (values == null) {
             return input;
@@ -75,6 +83,13 @@ public final class Base {
         return replacedLore;
     }
 
+    /**
+     * Replace a string with the given {@link Object...} replacement pairs
+     *
+     * @param input string value
+     * @param values of replacement pairs
+     * @return Input string with the given values replaced
+     */
     public static String replaceString(final String input, final Object... values) {
         if (values == null) {
             return input;
@@ -88,6 +103,12 @@ public final class Base {
         return replacedString;
     }
 
+    /**
+     * Returns a {@link Map} with the mapped replacement pairs
+     *
+     * @param values of replacement pairs
+     * @return {@link Map} of mapped replacements
+     */
     private static Map<Object, Object> getReplacements(final Object... values) {
         final Map<Object, Object> replacements = new HashMap<>();
         for (int i = 0; i < values.length - 1; i += 2) {

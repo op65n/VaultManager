@@ -7,6 +7,13 @@ public final class Nameable {
 
     private static final Pattern PATTERN = Pattern.compile("^\\w{3,16}$");
 
+    /**
+     * Checks the validity of a given {@link String} and returns
+     * a corresponding {@link Response}
+     *
+     * @param input {@link String} to be checked
+     * @return {@link Response} conforming the result of the validity check
+     */
     public static Response checkValidity(final String input) {
         if (input == null || input.isEmpty())
             return Response.INVALID;
