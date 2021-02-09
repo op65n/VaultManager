@@ -4,6 +4,7 @@ import me.mattstudios.mfgui.gui.guis.Gui;
 import me.mattstudios.mfgui.gui.guis.GuiItem;
 import op65n.tech.vaultmanager.data.object.VaultSnapshot;
 import op65n.tech.vaultmanager.data.provider.DataProvider;
+import op65n.tech.vaultmanager.util.Task;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -64,7 +65,7 @@ public final class VaultEditSessionImplementation implements VaultSnapshot {
         );
 
         gui.setCloseGuiAction(event ->
-                provider.setVaultContents(this.identifier, this.position, getInventoryContents(event.getInventory().getContents()))
+                Task.async(() -> provider.setVaultContents(this.identifier, this.position, getInventoryContents(event.getInventory().getContents())))
         );
 
         this.contents.forEach((slot, item) -> gui.setItem(slot, new GuiItem(item)));
