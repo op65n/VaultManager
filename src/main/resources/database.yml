@@ -1,0 +1,19 @@
+pool: 'VMPool'
+ip: 127.0.0.1
+port: 3306
+jdbc: 'mariadb'
+database: 'vault_manager_db'
+username: ':/'
+passwd: ':/'
+driver: 'org.mariadb.jdbc.Driver'
+properties:
+  - dataSource.cachePrepStmts: true
+  - dataSource.prepStmtCacheSize: 250
+  - dataSource.prepStmtCacheSqlLimit: 2048
+  - dataSource.useServerPrepStmts: true
+  - dataSource.useLocalSessionState: true
+  - dataSource.rewriteBatchedStatements: true
+  - dataSource.cacheResultSetMetadata: true
+  - dataSource.cacheServerConfiguration: true
+  - dataSource.elideSetAutoCommits: true
+  - dataSource.maintainTimeStats: false
