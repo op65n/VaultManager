@@ -15,15 +15,10 @@ public final class DataRegisterable {
         final String dataProvider = plugin.getConfig().getString("settings.data-provider", "FILE");
 
         switch (dataProvider.toUpperCase()) {
-            case "FILE":
-                this.provider = new FileImplementation(plugin);
-                return;
-            case "DATABASE":
-                this.provider = new DatabaseImplementation(plugin);
-                return;
+            case "FILE" -> this.provider = new FileImplementation(plugin);
+            case "DATABASE" -> this.provider = new DatabaseImplementation(plugin);
+            default -> throw new RuntimeException("Failed to recognize DataProvider type! Available: FILE, DATABASE");
         }
-
-        throw new RuntimeException("Failed to recognize DataProvider type! Available: FILE, DATABASE");
     }
 
     @NotNull

@@ -1,10 +1,10 @@
 pool: 'VMPool'
-ip: 127.0.0.1
+ip: frosty.op65n.tech
 port: 3306
 jdbc: 'mariadb'
 database: 'vault_manager_db'
-username: ':/'
-passwd: ':/'
+username: 'frosty'
+passwd: 'IWantToDie123'
 driver: 'org.mariadb.jdbc.Driver'
 properties:
   - dataSource.cachePrepStmts: true

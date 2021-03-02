@@ -1,15 +1,23 @@
 settings:
-  data-provider: FILE # DATABASE
+  data-provider: DATABASE # FILE
 
 message:
-  invalid-vault-identifier: "&cThe given identifier &7'{identifier}' &cdoes not match any registered vault!"
-  no-vault-access: "&cYou do not have permission to access this vault."
-  successfully-changed-name: "&aYou have successfully changed the vault at position &7{vault-position}&a's name to &7{vault-name}&a."
-  invalid-position-number: "&cPrivate Vault's are only allowed to be used with a positive or non 0 number."
-  player-only-command: "&cThis command can not be executed through the console."
-  wrong-command-usage: "&cWrong specified parameters for the given command."
-  no-command-permission: "&cYou do not have permission to use this command."
-  unknown-command: "&cInvalid command."
+  invalid-vault-identifier:
+    - "[MESSAGE] &cThe given identifier &7'{identifier}' &cdoes not match any registered vault!"
+  no-vault-access:
+    - "[MESSAGE] &cYou do not have permission to access this vault."
+  successfully-changed-name:
+    - "[MESSAGE] &aYou have successfully changed the vault at position &7{vault-position}&a's name to &7{vault-name}&a."
+  invalid-position-number:
+    - "[MESSAGE] &cPrivate Vault's are only allowed to be used with a positive or non 0 number."
+  player-only-command:
+    - "[MESSAGE] &cThis command can not be executed through the console."
+  wrong-command-usage:
+    - "[MESSAGE] &cWrong specified parameters for the given command."
+  no-command-permission:
+    - "[MESSAGE] &cYou do not have permission to use this command."
+  unknown-command:
+    - "[MESSAGE] &cInvalid command."
   deny-response:
     lenght: "&cThe length of the given name does not match the restrictions (3 > length < 16)"
     unknown: "&cThe name could not be changed for an unknown reason, if you believe this is a mistake, contact an Administrator."

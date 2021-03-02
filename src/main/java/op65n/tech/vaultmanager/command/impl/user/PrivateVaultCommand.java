@@ -1,5 +1,6 @@
 package op65n.tech.vaultmanager.command.impl.user;
 
+import com.github.frcsty.frozenactions.wrapper.ActionHandler;
 import com.google.common.primitives.Ints;
 import me.mattstudios.mf.annotations.Alias;
 import me.mattstudios.mf.annotations.Command;
@@ -33,11 +34,13 @@ public final class PrivateVaultCommand extends CommandBase {
     private final DataProvider dataProvider;
     private final FileConfiguration configuration;
     private final CompletionCache completionCache;
+    private final ActionHandler actionHandler;
 
     public PrivateVaultCommand(final VaultManagerPlugin plugin) {
         this.dataProvider = plugin.getDataProvider();
         this.configuration = plugin.getConfig();
         this.completionCache = plugin.getCompletionCache();
+        this.actionHandler = plugin.getActionHandler();
     }
 
     @Default
@@ -46,26 +49,28 @@ public final class PrivateVaultCommand extends CommandBase {
             final Keyable<?> key = Ints.tryParse(keyObject) != null ? new PositionKey(Integer.parseInt(keyObject)) : new NameKey(keyObject);
             final Integer position = getVaultPosition(player, key);
             if (position == null) {
-                Base.sendMessage(
+                actionHandler.execute(
                         player,
-                        configuration.getString("message.invalid-vault-identifier"),
-                        "{identifier}", key.getKey()
+                        Base.replaceList(
+                                configuration.getStringList("message.invalid-vault-identifier"),
+                                "{identifier}", key.getKey()
+                        )
                 );
                 return;
             }
 
             if (position <= 0) {
-                Base.sendMessage(
+                actionHandler.execute(
                         player,
-                        configuration.getString("message.invalid-position-number")
+                        configuration.getStringList("message.invalid-position-number")
                 );
                 return;
             }
 
             if (!Permissible.hasVaultAccess(player, position)) {
-                Base.sendMessage(
+                actionHandler.execute(
                         player,
-                        configuration.getString("message.no-vault-access")
+                        configuration.getStringList("message.no-vault-access")
                 );
                 return;
             }
