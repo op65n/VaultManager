@@ -1,3 +1,12 @@
+pool: "VMPool"
+pool_size: 6
+ip: "127.0.0.1"
+port: "3306"
+jdbc: "mariadb"
+driver_class: "org.mariadb.jdbc.Driver"
+database: "vault_manager_db"
+username: ":/"
+password: ":/"
 pool: 'VMPool'
 ip: frosty.op65n.tech
 port: 3306
@@ -7,13 +16,14 @@ username: 'frosty'
 passwd: 'IWantToDie123'
 driver: 'org.mariadb.jdbc.Driver'
 properties:
-  - dataSource.cachePrepStmts: true
-  - dataSource.prepStmtCacheSize: 250
-  - dataSource.prepStmtCacheSqlLimit: 2048
-  - dataSource.useServerPrepStmts: true
-  - dataSource.useLocalSessionState: true
-  - dataSource.rewriteBatchedStatements: true
-  - dataSource.cacheResultSetMetadata: true
-  - dataSource.cacheServerConfiguration: true
-  - dataSource.elideSetAutoCommits: true
-  - dataSource.maintainTimeStats: false
+  cachePrepStmts: "true"
+  prepStmtCacheSize: "250"
+  prepStmtCacheSqlLimit: "2048"
+  useServerPrepStmts: "true"
+  useLocalSessionState: "true"
+  rewriteBatchedStatements: "true"
+  cacheResultSetMetadata: "true"
+  cacheServerConfiguration: "true"
+  elideSetAutoCommits: "true"
+  maintainTimeStats: "false"
+  connectionTimeout: "6000"
