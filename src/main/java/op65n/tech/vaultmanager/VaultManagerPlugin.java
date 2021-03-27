@@ -1,5 +1,8 @@
 package op65n.tech.vaultmanager;
 
+import com.github.frcsty.frozenactions.wrapper.ActionHandler;
+import me.mattstudios.msg.base.MessageOptions;
+import me.mattstudios.msg.base.internal.Format;
 import op65n.tech.vaultmanager.command.registerable.CommandRegisterable;
 import op65n.tech.vaultmanager.command.registerable.completion.CompletionCache;
 import op65n.tech.vaultmanager.data.provider.DataProvider;
@@ -9,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class VaultManagerPlugin extends JavaPlugin {
 
+    private final ActionHandler actionHandler = new ActionHandler(this);
     private final DataRegisterable dataRegisterable = new DataRegisterable();
     private final CommandRegisterable commandRegisterable = new CommandRegisterable();
 
@@ -18,6 +22,9 @@ public final class VaultManagerPlugin extends JavaPlugin {
 
         this.dataRegisterable.register(this);
         this.commandRegisterable.register(this);
+
+        actionHandler.createBukkitMessage(MessageOptions.builder().removeFormat(Format.ITALIC).build());
+        actionHandler.loadDefaults(false);
     }
 
     @Override
@@ -35,4 +42,8 @@ public final class VaultManagerPlugin extends JavaPlugin {
         return this.commandRegisterable.getCompletionCache();
     }
 
+    @NotNull
+    public ActionHandler getActionHandler() {
+        return this.actionHandler;
+    }
 }
