@@ -4,7 +4,9 @@ import me.mattstudios.mfgui.gui.guis.Gui;
 import me.mattstudios.mfgui.gui.guis.GuiItem;
 import op65n.tech.vaultmanager.data.object.VaultSnapshot;
 import op65n.tech.vaultmanager.data.provider.DataProvider;
+import op65n.tech.vaultmanager.util.Base;
 import op65n.tech.vaultmanager.util.Task;
+import op65n.tech.vaultmanager.util.item.ItemNBT;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -64,11 +66,25 @@ public final class VaultEditSessionImplementation implements VaultSnapshot {
                 this.name == null ? String.format("Vault #%s", this.position) : String.format("Vault %s (#%s)", this.name, this.position)
         );
 
-        gui.setCloseGuiAction(event ->
-                Task.async(() -> provider.setVaultContents(this.identifier, this.position, getInventoryContents(event.getInventory().getContents())))
+        gui.setCloseGuiAction(event -> {
+            Task.async(() ->
+                    provider.setVaultContents(this.identifier, this.position, getInventoryContents(event.getInventory().getContents()))
+            );
+
+            Base.removeNBTData(event.getInventory());
+        });
+
+        gui.setOpenGuiAction(event ->
+                Base.removeNBTData(event.getInventory())
         );
 
-        this.contents.forEach((slot, item) -> gui.setItem(slot, new GuiItem(item)));
+        gui.setDragAction(event ->
+                Base.removeNBTData(event.getInventory())
+        );
+
+        this.contents.forEach((slot, item) ->
+                gui.setItem(slot, new GuiItem(item))
+        );
 
         return gui;
     }
@@ -77,8 +93,9 @@ public final class VaultEditSessionImplementation implements VaultSnapshot {
         final Map<Integer, ItemStack> result = new HashMap<>();
 
         for (int slot = 0; slot < contents.length; slot++) {
-            final ItemStack item = contents[slot];
+            ItemStack item = contents[slot];
 
+            item = ItemNBT.setNBTTag(item, "mf-gui", null);
             result.put(slot, item);
         }
 

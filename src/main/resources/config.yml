@@ -19,5 +19,9 @@ message:
   unknown-command:
     - "[MESSAGE] &cInvalid command."
   deny-response:
-    lenght: "&cThe length of the given name does not match the restrictions (3 > length < 16)"
-    unknown: "&cThe name could not be changed for an unknown reason, if you believe this is a mistake, contact an Administrator."
+    length:
+      - "[MESSAGE] &cThe length of the given name does not match the restrictions (3 > length < 16)."
+    invalid:
+      - "[MESSAGE] &cThe given name is invalid as it violates the Regex checking requirements."
+    unknown:
+      - "[MESSAGE] &cThe name could not be changed for an unknown reason, if you believe this is a mistake, contact an Administrator."

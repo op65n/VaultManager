@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "op65n.tech.vaultmanager"
-version = "0.0.4-Alpha"
+version = "0.0.7-Alpha"
 
 repositories {
 	mavenCentral()
@@ -25,12 +25,13 @@ dependencies {
 	implementation "me.mattstudios.utils:matt-framework-gui:2.0.2"
 	implementation "me.mattstudios.utils:matt-framework:1.4"
 
-	compileOnly "com.destroystokyo.paper:paper-api:1.16.4-R0.1-SNAPSHOT"
+	compileOnly "com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT"
 }
 
 shadowJar {
 	relocate "me.mattstudios.mf", "${project.group}.library.mf"
 	relocate "com.github.frcsty.frozenactions", "${project.group}.library.actions"
+	relocate "com.zaxxer.hikaricp", "${project.group}.library.hikari"
 
 	archiveFileName.set("VaultManager.jar")
 }

@@ -28,7 +28,7 @@ import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
 @Command("privatevault")
-@Alias("pv")
+@Alias({"skrinja", "privatskrinja", "nzd-sucks-skrinja", "nzd-noce-convertat-shita-zato-morate-uporabljati-to-komando"})
 public final class PrivateVaultCommand extends CommandBase {
 
     private final DataProvider dataProvider;

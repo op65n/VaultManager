@@ -7,13 +7,6 @@ driver_class: "org.mariadb.jdbc.Driver"
 database: "vault_manager_db"
 username: ":/"
 password: ":/"
-pool: 'VMPool'
-ip: frosty.op65n.tech
-port: 3306
-jdbc: 'mariadb'
-database: 'vault_manager_db'
-username: 'frosty'
-passwd: 'IWantToDie123'
 driver: 'org.mariadb.jdbc.Driver'
 properties:
   cachePrepStmts: "true"

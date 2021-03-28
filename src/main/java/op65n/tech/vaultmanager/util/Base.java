@@ -1,7 +1,11 @@
 package op65n.tech.vaultmanager.util;
 
 import net.md_5.bungee.api.ChatColor;
+import op65n.tech.vaultmanager.util.item.ItemNBT;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,5 +124,21 @@ public final class Base {
         return replacements;
     }
 
+    /**
+     * Clears the NBT Tag data within a users inventory
+     * for the key "mf-gui"
+     *
+     * @param inventory Inventory to clear nbt data for
+     */
+    public static void removeNBTData(final Inventory inventory) {
+        for (int slot = 0; slot < inventory.getSize(); slot++) {
+            ItemStack item = inventory.getItem(slot);
+
+            item = ItemNBT.clearNBTTag(item, "mf-gui");
+            inventory.setItem(slot, item);
+        }
+
+        inventory.getViewers().stream().map(it -> (Player) it).forEach(Player::updateInventory);
+    }
 
 }

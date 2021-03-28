@@ -23,6 +23,9 @@ public final class Nameable {
         if (matcher.matches())
             return Response.VALID;
 
+        if (!matcher.matches())
+            return Response.INVALID;
+
         if (input.length() < 3 || input.length() > 16)
             return Response.LENGTH;
 
