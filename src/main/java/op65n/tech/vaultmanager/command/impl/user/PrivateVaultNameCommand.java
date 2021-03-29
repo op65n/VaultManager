@@ -1,5 +1,6 @@
 package op65n.tech.vaultmanager.command.impl.user;
 
+import com.github.frcsty.frozenactions.wrapper.ActionHandler;
 import me.mattstudios.mf.annotations.Command;
 import me.mattstudios.mf.annotations.Default;
 import me.mattstudios.mf.annotations.Permission;
@@ -20,10 +21,12 @@ public final class PrivateVaultNameCommand extends CommandBase {
 
     private final DataProvider dataProvider;
     private final FileConfiguration configuration;
+    private final ActionHandler actionHandler;
 
     public PrivateVaultNameCommand(final VaultManagerPlugin plugin) {
         this.dataProvider = plugin.getDataProvider();
         this.configuration = plugin.getConfig();
+        this.actionHandler = plugin.getActionHandler();
     }
 
     @Default
@@ -32,28 +35,30 @@ public final class PrivateVaultNameCommand extends CommandBase {
         Task.async(() -> {
             final UUID identifier = player.getUniqueId();
             if (!Permissible.hasVaultAccess(player, position)) {
-                Base.sendMessage(
+                actionHandler.execute(
                         player,
-                        configuration.getString("message.no-vault-access")
+                        configuration.getStringList("message.no-vault-access")
                 );
                 return;
             }
 
             final Nameable.Response response = Nameable.checkValidity(name);
             if (response == Nameable.Response.VALID) {
-                Base.sendMessage(
+                actionHandler.execute(
                         player,
-                        configuration.getString("message.successfully-changed-name"),
-                        "{vault-name}", name,
-                        "{vault-position}", position
+                        Base.replaceList(
+                                configuration.getStringList("message.successfully-changed-name"),
+                                "{vault-name}", name,
+                                "{vault-position}", position
+                        )
                 );
                 this.dataProvider.setVaultDisplayName(identifier, position, name);
                 return;
             }
 
-            Base.sendMessage(
+            actionHandler.execute(
                     player,
-                    configuration.getString(String.format("message.%s", response.getReasonPath()))
+                    configuration.getStringList(String.format("message.%s", response.getReasonPath()))
             );
         });
     }
