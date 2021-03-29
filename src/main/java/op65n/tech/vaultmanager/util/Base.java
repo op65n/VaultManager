@@ -2,10 +2,12 @@ package op65n.tech.vaultmanager.util;
 
 import net.md_5.bungee.api.ChatColor;
 import op65n.tech.vaultmanager.util.item.ItemNBT;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +68,7 @@ public final class Base {
     /**
      * Replaces a list with the given {@link Object...} replacement pairs
      *
-     * @param input list of values
+     * @param input  list of values
      * @param values of replacement pairs
      * @return Input list with the given values replaced
      */
@@ -90,7 +92,7 @@ public final class Base {
     /**
      * Replace a string with the given {@link Object...} replacement pairs
      *
-     * @param input string value
+     * @param input  string value
      * @param values of replacement pairs
      * @return Input string with the given values replaced
      */
@@ -133,8 +135,10 @@ public final class Base {
     public static void removeNBTData(final Inventory inventory) {
         for (int slot = 0; slot < inventory.getSize(); slot++) {
             ItemStack item = inventory.getItem(slot);
+            if (item == null || item.getType() == Material.AIR) continue;
 
-            item = ItemNBT.clearNBTTag(item, "mf-gui");
+            item = ItemNBT.removeNBTTag(item, "mf-gui");
+
             inventory.setItem(slot, item);
         }
 

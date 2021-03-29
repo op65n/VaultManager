@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "op65n.tech.vaultmanager"
-version = "0.0.7-Alpha"
+version = "0.0.8-Alpha"
 
 repositories {
 	mavenCentral()
@@ -37,6 +37,7 @@ shadowJar {
 }
 
 processResources {
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 	from(sourceSets.main.resources.srcDirs) {
 		filter ReplaceTokens, tokens: [version: version]
 	}

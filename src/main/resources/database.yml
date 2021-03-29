@@ -19,4 +19,5 @@ properties:
   cacheServerConfiguration: "true"
   elideSetAutoCommits: "true"
   maintainTimeStats: "false"
-  connectionTimeout: "6000"
+  validationTimeout: "8000"
+  connectionTimeout: "10000"

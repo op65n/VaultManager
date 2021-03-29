@@ -16,6 +16,7 @@ public final class ItemNBT {
     private static Method hasTagMethod;
     private static Method getTagMethod;
     private static Method setTagMethod;
+    private static Method removeTagMethod;
     private static Method asNMSCopyMethod;
     private static Method asBukkitCopyMethod;
 
@@ -28,6 +29,7 @@ public final class ItemNBT {
             hasTagMethod = Objects.requireNonNull(getNMSClass("ItemStack")).getMethod("hasTag");
             getTagMethod = Objects.requireNonNull(getNMSClass("ItemStack")).getMethod("getTag");
             setTagMethod = Objects.requireNonNull(getNMSClass("ItemStack")).getMethod("setTag", getNMSClass("NBTTagCompound"));
+            removeTagMethod = Objects.requireNonNull(getNMSClass("NBTTagCompound")).getMethod("remove", String.class);
             nbtCompoundConstructor = Objects.requireNonNull(getNMSClass("NBTTagCompound")).getDeclaredConstructor();
             asNMSCopyMethod = Objects.requireNonNull(getCraftItemStackClass()).getMethod("asNMSCopy", ItemStack.class);
             asBukkitCopyMethod = Objects.requireNonNull(getCraftItemStackClass()).getMethod("asBukkitCopy", getNMSClass("ItemStack"));
@@ -57,19 +59,20 @@ public final class ItemNBT {
     }
 
     /**
-     * Removes given NBT Tag key from the {@link ItemStack}
+     * Sets an NBT tag to the an {@link ItemStack}
      *
      * @param itemStack The current {@link ItemStack} to be set
-     * @param key       The NBT key to use
-     * @return An {@link ItemStack} that has had the NBT removed
+     * @param key       The NBT key to remove
+     * @return An {@link ItemStack} that has NBT set
      */
-    public static ItemStack clearNBTTag(final ItemStack itemStack, final String key) {
+    public static ItemStack removeNBTTag(final ItemStack itemStack, final String key) {
         if (itemStack == null || itemStack.getType() == Material.AIR) return itemStack;
 
         Object nmsItemStack = asNMSCopy(itemStack);
         Object itemCompound = hasTag(nmsItemStack) ? getTag(nmsItemStack) : newNBTTagCompound();
 
-        setTag(nmsItemStack, null);
+        remove(itemCompound, key);
+        setTag(nmsItemStack, itemCompound);
 
         return asBukkitCopy(nmsItemStack);
     }
@@ -156,6 +159,19 @@ public final class ItemNBT {
     private static void setTag(final Object nmsItemStack, final Object itemCompound) {
         try {
             setTagMethod.invoke(nmsItemStack, itemCompound);
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
+        }
+    }
+
+    /**
+     * Mimics the itemCompound#remove method
+     *
+     * @param itemCompound The ItemCompound
+     * @param key          The key to remove
+     */
+    private static void remove(final Object itemCompound, final String key) {
+        try {
+            removeTagMethod.invoke(itemCompound, key);
         } catch (IllegalAccessException | InvocationTargetException ignored) {
         }
     }
