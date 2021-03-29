@@ -2,7 +2,6 @@ package op65n.tech.vaultmanager.database.adapter;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import op65n.tech.vaultmanager.VaultManagerPlugin;
 import op65n.tech.vaultmanager.database.tables.TableVaults;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.intellij.lang.annotations.Language;
@@ -18,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ConnectionAdapter {
 
     private InitStatus status = InitStatus.OK;
-    private String error;
+    private HikariDataSource hikariDataSource;
 
     private HikariDataSource createHikariDataSource(final DatabaseConfiguration configuration) {
         final Properties hikariProperties = new Properties();
@@ -61,7 +60,7 @@ public class ConnectionAdapter {
 
     public InitStatus initialize(final @NotNull ConcurrentHashMap<Integer, ConnectionHolder> connectionHolders, final FileConfiguration dbConfig) {
         final DatabaseConfiguration configuration = new DatabaseConfiguration(dbConfig);
-        final HikariDataSource hikariDataSource = createHikariDataSource(configuration);
+        hikariDataSource = createHikariDataSource(configuration);
 
         try {
             createTables(configuration.database, hikariDataSource);
@@ -78,8 +77,8 @@ public class ConnectionAdapter {
         return status;
     }
 
-    public String error() {
-        return error;
+    public HikariDataSource hikariDataSource() {
+        return hikariDataSource;
     }
 
     public enum InitStatus {

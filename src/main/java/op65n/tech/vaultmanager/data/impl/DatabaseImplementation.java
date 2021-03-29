@@ -37,6 +37,8 @@ public final class DatabaseImplementation implements DataProvider {
         final java.io.File file = new java.io.File(plugin.getDataFolder(), "database.yml");
         final FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
 
+        Database.masterWorkerID = Thread.currentThread().getId();
+
         final Database database = new Database();
         database.createAdapter(configuration);
     }

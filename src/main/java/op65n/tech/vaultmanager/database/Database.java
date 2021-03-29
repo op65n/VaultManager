@@ -1,5 +1,6 @@
 package op65n.tech.vaultmanager.database;
 
+import com.zaxxer.hikari.HikariDataSource;
 import op65n.tech.vaultmanager.database.adapter.ConnectionAdapter;
 import op65n.tech.vaultmanager.database.adapter.ConnectionHolder;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,6 +22,7 @@ public class Database {
 
     public final ConcurrentHashMap<Integer, ConnectionHolder> connectionHolders = new ConcurrentHashMap<>();
     public final ConcurrentLinkedQueue<Thread> workerQueue = new ConcurrentLinkedQueue<>();
+    public HikariDataSource hikariDataSource;
 
     /**
      * Replaces connection holder with a new one, effectively updating it
@@ -36,8 +38,10 @@ public class Database {
         final ConnectionAdapter.InitStatus initStatus = adapter.initialize(connectionHolders, configuration);
 
         if (initStatus == ConnectionAdapter.InitStatus.ERROR) {
-            throw new RuntimeException(adapter.error());
+            throw new RuntimeException("SQL adapter failed to start, aborting!");
         }
+
+        hikariDataSource = adapter.hikariDataSource();
     }
 
     public void terminateAdapter() {

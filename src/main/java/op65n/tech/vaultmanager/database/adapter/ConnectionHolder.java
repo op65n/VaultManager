@@ -13,10 +13,12 @@ public class ConnectionHolder implements DataSource {
     public ConnectionHolder(final @NotNull Connection connection, final int CID) {
         this.connection = connection;
         this.CID = CID;
+        creationTime = System.currentTimeMillis();
     }
 
+    private long creationTime;
     private long reservedUntil = 0;
-    private final Connection connection;
+    private Connection connection;
     public final int CID;
 
     public boolean isReserved() {
@@ -51,6 +53,17 @@ public class ConnectionHolder implements DataSource {
 
     @Override
     public @NotNull PreparedStatement prepare(final @NotNull String query) throws SQLException {
+        if (System.currentTimeMillis() - creationTime > 600000) {
+            try {
+                connection.close();
+            } catch (final SQLException e) {
+                System.out.println("Show this error to Nzd_1");
+                e.printStackTrace();
+                System.out.println("Show this error to Nzd_1");
+            }
+            connection = Database.INSTANCE.hikariDataSource.getConnection();
+            creationTime = System.currentTimeMillis();
+        }
         return connection.prepareStatement(query);
     }
 
