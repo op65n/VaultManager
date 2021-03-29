@@ -32,6 +32,7 @@ shadowJar {
 	relocate "me.mattstudios.mf", "${project.group}.library.mf"
 	relocate "com.github.frcsty.frozenactions", "${project.group}.library.actions"
 	relocate "com.zaxxer.hikaricp", "${project.group}.library.hikari"
+	relocate "org.mariadb", "${project.group}.library.mariadb"
 
 	archiveFileName.set("VaultManager.jar")
 }
