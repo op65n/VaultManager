@@ -1,27 +1,26 @@
 # Vault Manager
 Private Player Vaults plugin for 1.16+
 <br>
-Version: `0.0.1-Alpha` <br>
-Native API: `Paper-1.16.4-R0.1-SNAPSHOT` <br>
+Version: `0.0.9-PreRelease` <br>
+Native API: `Paper-1.16.5-R0.1-SNAPSHOT` <br>
 Source Code: <a href="https://github.com/op65n/VaultManager">github.com/op65n/VaultManager</a> <br>
 Developer: `Frcsty` <br>
-
-## How To (Server Owner)
-This is a plugin built on PaperAPI, and is required to properly run this plugin.
-
-<b>Installation:</b> <br>
-| Place VaultManager.jar (`VaultManager.jar`) file into the plugins folder. <br>
-| Start the server, plugin will generate `VaultManager` directory with files:
-* `config.yml`
-* `storage/` (directory containing user's vault file) <br>
-
-| Stop the server after everything has been loaded. <br>
-| Open and configure the plugin to your needs. <br>
-| Start the server and enjoy the plugin!
 
 ## Commands
 The plugin provides several User and Admin commands:
 
-- `/privatevault <index/name>` (Alias: `pv`) <br>
+- `/privatevault <index/name>` (alias: `pv`) (permission: `/`) <br>
     Opens the users vault at the index/name if they have 
-    the permission for it
+    the permission for it.
+  
+
+- `/setvault <index/name> <name>` (alias: `/`) (permission: `vaultmanager.vault.rename`) <br>
+    Set's the given vaults new name if it matches the requirements, the user needs access
+    to the vault in order to be able to change it.
+  
+
+- `/inspectvault <player> <index>` (alias: `iv`) (permission: `vaultmanager.command.admin.inspect`) <br>
+    Opens a vault inspector containing the contents of the target's specified vault.
+  
+    If the executor has the permission `vaultmanager.command.admin.edit` the inspector will allow edits (NOTE: These edits are saved <br>
+    so don't do dumb shit.)
