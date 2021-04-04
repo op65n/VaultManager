@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "op65n.tech.vaultmanager"
-version = "0.0.8-Alpha"
+version = "0.0.9-PreRelease"
 
 repositories {
 	mavenCentral()
@@ -32,7 +32,6 @@ shadowJar {
 	relocate "me.mattstudios.mf", "${project.group}.library.mf"
 	relocate "com.github.frcsty.frozenactions", "${project.group}.library.actions"
 	relocate "com.zaxxer.hikaricp", "${project.group}.library.hikari"
-	relocate "org.mariadb", "${project.group}.library.mariadb"
 
 	archiveFileName.set("VaultManager.jar")
 }
