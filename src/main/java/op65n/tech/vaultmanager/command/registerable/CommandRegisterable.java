@@ -32,7 +32,7 @@ public final class CommandRegisterable {
             messageHandler.register(message.getIdentifier(), sender ->
                     Base.sendMessage(
                             sender,
-                            configuration.getString(String.format("message.%s", message.getPath()))
+                            configuration.getStringList(String.format("message.%s", message.getPath()))
                     )
             );
         }

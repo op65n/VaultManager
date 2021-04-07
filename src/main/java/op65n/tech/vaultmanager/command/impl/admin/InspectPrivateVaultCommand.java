@@ -42,7 +42,7 @@ public final class InspectPrivateVaultCommand extends CommandBase {
             final VaultSnapshot vaultSnapshot = !editable
                     ? this.dataProvider.getVaultSnapshot(identifier, position)
                     : new VaultEditSessionImplementation(dataProvider, identifier, position, 6);
-            final Gui snapshotMenu = vaultSnapshot.construct(target);
+            final Gui snapshotMenu = vaultSnapshot.construct(target, editable);
             Task.queue(() ->
                     snapshotMenu.open(player)
             );

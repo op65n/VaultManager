@@ -1,46 +1,47 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
-	id "com.github.johnrengelman.shadow" version "6.1.0"
-	id "java"
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id "java"
 }
 
 group = "op65n.tech.vaultmanager"
-version = "0.0.9-PreRelease"
+version = "0.1.1-PreRelease"
 
 repositories {
-	mavenCentral()
-	maven { url "https://papermc.io/repo/repository/maven-public/" }
-	maven { url "https://oss.sonatype.org/content/groups/public/" }
-	maven { url "https://repo.mattstudios.me/artifactory/public" }
-	maven { url "https://frosty.op65n.tech/maven/" }
+    mavenCentral()
+    maven { url "https://papermc.io/repo/repository/maven-public/" }
+    maven { url "https://oss.sonatype.org/content/groups/public/" }
+    maven { url "https://repo.mattstudios.me/artifactory/public" }
+    maven { url "https://frosty.op65n.tech/maven/" }
+    maven { url "https://maven.op65n.org" }
 }
 
 dependencies {
-	implementation "com.github.frcsty.frozenactions:FrozenActionsJava:1.0.8"
+    implementation "com.github.frcsty.frozenactions:FrozenActionsJava:1.0.8"
 
-	implementation "com.zaxxer:HikariCP:4.0.1"
-	implementation "org.mariadb.jdbc:mariadb-java-client:2.7.2"
+    implementation "org.op65n:Gazelle:1.0"
+    implementation "org.mariadb.jdbc:mariadb-java-client:2.7.2"
 
-	implementation "me.mattstudios.utils:matt-framework-gui:2.0.2"
-	implementation "me.mattstudios.utils:matt-framework:1.4"
+    implementation "me.mattstudios.utils:matt-framework-gui:2.0.2"
+    implementation "me.mattstudios.utils:matt-framework:1.4"
 
-	compileOnly "com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT"
+    compileOnly "com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT"
 }
 
 shadowJar {
-	relocate "me.mattstudios.mf", "${project.group}.library.mf"
-	relocate "com.github.frcsty.frozenactions", "${project.group}.library.actions"
-	relocate "com.zaxxer.hikaricp", "${project.group}.library.hikari"
+    relocate "me.mattstudios.mf", "${project.group}.library.mf"
+    relocate "com.github.frcsty.frozenactions", "${project.group}.library.actions"
+    relocate "org.op65n.gazelle", "${project.group}.library.gazelle"
 
-	archiveFileName.set("VaultManager.jar")
+    archiveFileName.set("VaultManager.jar")
 }
 
 processResources {
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
-	from(sourceSets.main.resources.srcDirs) {
-		filter ReplaceTokens, tokens: [version: version]
-	}
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from(sourceSets.main.resources.srcDirs) {
+        filter ReplaceTokens, tokens: [version: version]
+    }
 }
 
 jar.finalizedBy(shadowJar)

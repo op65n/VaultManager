@@ -1,16 +1,16 @@
-package op65n.tech.vaultmanager.database.tables;
+package op65n.tech.vaultmanager.data.impl.tables;
 
-import op65n.tech.vaultmanager.database.adapter.ITable;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
+import org.op65n.gazelle.api.DatabaseTable;
 
-public class TableVaults implements ITable {
+public final class TablePlayerVaults implements DatabaseTable {
 
     @NotNull
     @Language("MariaDB")
     private String database = "vault_manager";
 
-    public TableVaults(@Language("MariaDB") final @NotNull String database) {
+    public TablePlayerVaults(@Language("MariaDB") final @NotNull String database) {
         this.database = database;
     }
 
@@ -21,7 +21,7 @@ public class TableVaults implements ITable {
 
     @Override
     @Language("MariaDB")
-    public @NotNull String getCreateQuery() {
+    public @NotNull String createQuery() {
         return "CREATE TABLE IF NOT EXISTS `" + database + "`.`player_vaults` ( " +
                 "  `id` INT NOT NULL AUTO_INCREMENT, " +
                 "  `player_uuid` BINARY(16) NOT NULL, " +

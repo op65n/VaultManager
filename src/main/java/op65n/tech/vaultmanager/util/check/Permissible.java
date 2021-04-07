@@ -5,6 +5,7 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public final class Permissible {
@@ -37,16 +38,23 @@ public final class Permissible {
      */
     private static boolean hasAllowedRange(final int index, final Set<PermissionAttachmentInfo> permissions) {
         final Constructor permissionConstructor = new Constructor(0, PermissibleType.RANGE);
-        final Optional<String> permission = permissions.stream()
+        final Set<String> permissible = permissions.stream()
                 .map(PermissionAttachmentInfo::getPermission)
                 .filter(it -> it.contains(permissionConstructor.getPermissionConstruction()))
-                .findAny();
+                .collect(Collectors.toSet());
 
-        if (permission.isEmpty())
+        if (permissible.isEmpty())
             return false;
 
-        final String[] components = permission.get().split("\\.");
-        return components.length >= 4 && Integer.parseInt(components[3]) >= index;
+        for (final String permission : permissible) {
+            try {
+                final String[] components = permission.split("\\.");
+                return components.length >= 4 && Integer.parseInt(components[3]) >= index;
+            } catch (final NumberFormatException ignored) {
+            }
+        }
+
+        return false;
     }
 
     /**

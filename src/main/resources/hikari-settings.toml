@@ -1,0 +1,24 @@
+pool_name = 'pool_name'
+pool_size = 4
+connection_reserve_time = 10000
+ip = '127.0.0.1'
+port = 3306
+jdbc = 'mariadb'
+driver = 'org.mariadb.jdbc.Driver'
+database = 'database_name'
+username = ':/'
+passwd = ':/'
+
+[properties]
+'dataSource.cachePrepStmts' = true
+'dataSource.prepStmtCacheSize' = 250
+'dataSource.prepStmtCacheSqlLimit' = 2048
+'dataSource.useServerPrepStmts' = true
+'dataSource.useLocalSessionState' = true
+'dataSource.rewriteBatchedStatements' = true
+'dataSource.cacheResultSetMetadata' = true
+'dataSource.cacheServerConfiguration' = true
+'dataSource.elideSetAutoCommits' = true
+'dataSource.maintainTimeStats' = false
+'dataSource.validationTimeout' = 80000
+'dataSource.connectionTimeout' = 10000

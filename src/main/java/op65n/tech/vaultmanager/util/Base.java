@@ -65,6 +65,10 @@ public final class Base {
         sender.sendMessage(translate(replaceString(message, replacements)));
     }
 
+    public static void sendMessage(final CommandSender sender, final List<String> message, final Object... replacements) {
+        message.forEach(it -> sendMessage(sender, it, replacements));
+    }
+
     /**
      * Replaces a list with the given {@link Object...} replacement pairs
      *

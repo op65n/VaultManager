@@ -1,18 +1,20 @@
 package op65n.tech.vaultmanager.data.impl;
 
 import op65n.tech.vaultmanager.VaultManagerPlugin;
+import op65n.tech.vaultmanager.data.impl.tables.TablePlayerVaults;
 import op65n.tech.vaultmanager.data.object.VaultSnapshot;
 import op65n.tech.vaultmanager.data.object.impl.VaultSnapshotImplementation;
 import op65n.tech.vaultmanager.data.provider.DataProvider;
-import op65n.tech.vaultmanager.database.Database;
-import op65n.tech.vaultmanager.database.api.ConcurrentConnection;
-import op65n.tech.vaultmanager.database.api.DataSource;
 import op65n.tech.vaultmanager.util.File;
 import op65n.tech.vaultmanager.util.Serializable;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import op65n.tech.vaultmanager.util.Task;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.op65n.gazelle.Gazelle;
+import org.op65n.gazelle.adapter.TomlGazelleConfiguration;
+import org.op65n.gazelle.api.ConcurrentConnection;
+import org.op65n.gazelle.api.DataSource;
+import org.op65n.gazelle.api.GazelleConfiguration;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -25,22 +27,26 @@ import java.util.UUID;
 
 public final class DatabaseImplementation implements DataProvider {
 
-    private final VaultManagerPlugin plugin;
-
     public DatabaseImplementation(final VaultManagerPlugin plugin) {
-        this.plugin = plugin;
-
         File.saveResources(
-                "database.yml"
+                "hikari-settings.toml"
         );
 
-        final java.io.File file = new java.io.File(plugin.getDataFolder(), "database.yml");
-        final FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+        final GazelleConfiguration configuration = new TomlGazelleConfiguration(plugin.getDataFolder() + "/hikari-settings.toml");
 
-        Database.masterWorkerID = Thread.currentThread().getId();
+        final Gazelle gazelle = new Gazelle(Thread.currentThread(), configuration);
 
-        final Database database = new Database();
-        database.createAdapter(configuration);
+        gazelle.registerTables(
+                new TablePlayerVaults(configuration.database())
+        );
+
+        Task.async(() -> {
+            try {
+                gazelle.start();
+            } catch (final SQLException exception) {
+                exception.printStackTrace();
+            }
+        });
     }
 
     @NotNull
@@ -52,7 +58,7 @@ public final class DatabaseImplementation implements DataProvider {
             final DataSource dataSource = new ConcurrentConnection().borrow();
 
             final PreparedStatement fetchVaultQuery = dataSource.prepare("SELECT vault_contents, vault_name FROM player_vaults WHERE player_uuid = ? AND vault_id = ?;");
-            fetchVaultQuery.setBytes(1,binaryUUID);
+            fetchVaultQuery.setBytes(1, binaryUUID);
             fetchVaultQuery.setInt(2, position);
 
             final ResultSet resSet = fetchVaultQuery.executeQuery();
@@ -187,7 +193,7 @@ public final class DatabaseImplementation implements DataProvider {
         dataSource.free();
     }
 
-    private byte[] uuidToBin(final UUID uuid){
+    private byte[] uuidToBin(final UUID uuid) {
         return ByteBuffer.wrap(new byte[16])
                 .order(ByteOrder.BIG_ENDIAN)
                 .putLong(uuid.getMostSignificantBits())

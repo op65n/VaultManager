@@ -22,5 +22,10 @@ The plugin provides several User and Admin commands:
 - `/inspectvault <player> <index>` (alias: `iv`) (permission: `vaultmanager.command.admin.inspect`) <br>
     Opens a vault inspector containing the contents of the target's specified vault.
   
-    If the executor has the permission `vaultmanager.command.admin.edit` the inspector will allow edits (NOTE: These edits are saved <br>
+    If the executor has the permission `vaultmanager.command.admin.edit` the inspector will allow edits (NOTE: These edits are saved
     so don't do dumb shit.)
+  
+*
+SIZE: vaultmanager.vault.size.<row>
+ACCESS: vaultmanager.vault.access.<index>
+RANGE: vaultmanager.vault.range.<top index>

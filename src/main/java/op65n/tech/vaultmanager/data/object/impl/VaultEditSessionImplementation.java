@@ -1,5 +1,6 @@
 package op65n.tech.vaultmanager.data.object.impl;
 
+import com.github.frcsty.frozenactions.util.Color;
 import me.mattstudios.mfgui.gui.guis.Gui;
 import me.mattstudios.mfgui.gui.guis.GuiItem;
 import op65n.tech.vaultmanager.data.object.VaultSnapshot;
@@ -60,10 +61,12 @@ public final class VaultEditSessionImplementation implements VaultSnapshot {
     }
 
     @Override
-    public @NotNull Gui construct(@NotNull final String ownerName) {
+    public @NotNull Gui construct(@NotNull final String ownerName, final boolean inspect) {
         final Gui gui = new Gui(
                 size,
-                this.name == null ? String.format("Vault #%s", this.position) : String.format("Vault %s (#%s)", this.name, this.position)
+                Color.translate(!inspect
+                        ? this.name == null ? String.format("&4Shramba #%s", this.position) : String.format("&4Shramba &5\"%s\" &8(&0#%s&8)", this.name, this.position)
+                        : this.name == null ? String.format("&4Shramba #%s &8- %s", this.position, ownerName) : String.format("&4Shramba &5\"%s\" &8(&0#%s&8) - %s", this.name, this.name, ownerName))
         );
 
         gui.setCloseGuiAction(event -> {
@@ -82,9 +85,11 @@ public final class VaultEditSessionImplementation implements VaultSnapshot {
                 Base.removeNBTData(event.getInventory())
         );
 
-        this.contents.forEach((slot, item) ->
-                gui.setItem(slot, new GuiItem(item))
-        );
+        this.contents.forEach((slot, item) -> {
+            if (slot < size * 9) {
+                gui.setItem(slot, new GuiItem(item));
+            }
+        });
 
         return gui;
     }

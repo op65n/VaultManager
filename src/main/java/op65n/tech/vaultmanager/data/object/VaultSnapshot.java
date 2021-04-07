@@ -1,5 +1,6 @@
 package op65n.tech.vaultmanager.data.object;
 
+import com.github.frcsty.frozenactions.util.Color;
 import me.mattstudios.mfgui.gui.guis.Gui;
 import me.mattstudios.mfgui.gui.guis.GuiItem;
 import org.bukkit.inventory.ItemStack;
@@ -46,10 +47,12 @@ public interface VaultSnapshot {
      * @return A gui constructed from the vault contents
      */
     @NotNull
-    default Gui construct(@NotNull final String ownerName) {
+    default Gui construct(@NotNull final String ownerName, final boolean inspect) {
         final Gui menu = new Gui(
                 6,
-                getDisplayName() == null ? String.format("Vault #%s - %s", getPosition(), ownerName) : String.format("Vault %s (#%s) - %s", getDisplayName(), getPosition(), ownerName)
+                Color.translate(getDisplayName() == null
+                        ? String.format("&4Shramba #%s &8- %s", getPosition(), ownerName)
+                        : String.format("&4Shramba &5\"%s\" &8(&0#%s&8) - %s", getDisplayName(), getPosition(), ownerName))
         );
 
         menu.setDefaultClickAction(event -> event.setCancelled(true));

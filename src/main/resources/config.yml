@@ -11,13 +11,13 @@ message:
   invalid-position-number:
     - "[MESSAGE] &cPrivate Vault's are only allowed to be used with a positive or non 0 number."
   player-only-command:
-    - "[MESSAGE] &cThis command can not be executed through the console."
+    - "&cThis command can not be executed through the console."
   wrong-command-usage:
-    - "[MESSAGE] &cWrong specified parameters for the given command."
+    - "&cWrong specified parameters for the given command."
   no-command-permission:
-    - "[MESSAGE] &cYou do not have permission to use this command."
+    - "&cYou do not have permission to use this command."
   unknown-command:
-    - "[MESSAGE] &cInvalid command."
+    - "&cInvalid command."
   deny-response:
     length:
       - "[MESSAGE] &cThe length of the given name does not match the restrictions (3 > length < 16)."
