@@ -18,6 +18,8 @@ message:
     - "&cYou do not have permission to use this command."
   unknown-command:
     - "&cInvalid command."
+  opening-vault:
+    - "&aOpening Vault with Index {vault-index}"
   deny-response:
     length:
       - "[MESSAGE] &cThe length of the given name does not match the restrictions (3 > length < 16)."

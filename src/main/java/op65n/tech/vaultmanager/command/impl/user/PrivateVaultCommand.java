@@ -78,6 +78,11 @@ public final class PrivateVaultCommand extends CommandBase {
             final int size = Permissible.getAllowedVaultSize(player);
             final VaultSnapshot vaultSnapshot = new VaultEditSessionImplementation(dataProvider, player.getUniqueId(), position, size);
             final Gui menu = vaultSnapshot.construct(player.getName(), false);
+            Base.sendMessage(
+                    player,
+                    configuration.getString("message.opening-vault"),
+                    "{vault-index}", position
+            );
             Task.queue(() ->
                     menu.open(player)
             );
