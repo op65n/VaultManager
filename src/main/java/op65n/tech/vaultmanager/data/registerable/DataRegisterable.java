@@ -6,7 +6,6 @@ import op65n.tech.vaultmanager.data.impl.FileImplementation;
 import op65n.tech.vaultmanager.data.provider.DataProvider;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("ConstantConditions")
 public final class DataRegisterable {
 
     private DataProvider provider;

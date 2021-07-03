@@ -11,10 +11,10 @@ import op65n.tech.vaultmanager.util.Task;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.op65n.gazelle.Gazelle;
-import org.op65n.gazelle.adapter.TomlGazelleConfiguration;
-import org.op65n.gazelle.api.ConcurrentConnection;
-import org.op65n.gazelle.api.DataSource;
-import org.op65n.gazelle.api.GazelleConfiguration;
+import org.op65n.gazelle.api.connection.ConcurrentConnection;
+import org.op65n.gazelle.api.holder.DataSource;
+import org.op65n.gazelle.configuration.GazelleConfiguration;
+import org.op65n.gazelle.configuration.impl.TomlGazelleConfiguration;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

@@ -31,10 +31,7 @@ public final class InspectPrivateVaultCommand extends CommandBase {
     @Permission("vaultmanager.command.admin.inspect")
     public void onInspectCommand(final Player player, final String target, final Integer position) {
         Task.async(() -> {
-            boolean editable = true;
-            if (!player.hasPermission("vaultmanager.command.admin.edit")) {
-                editable = false;
-            }
+            boolean editable = player.hasPermission("vaultmanager.command.admin.edit");
 
             final OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(target);
             final UUID identifier = offlineTarget.getUniqueId();

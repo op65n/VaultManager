@@ -79,15 +79,7 @@ public final class Permissible {
         return components.length < 4 ? 1 : Integer.parseInt(components[3]);
     }
 
-    private static class Constructor {
-
-        private final int index;
-        private final PermissibleType type;
-
-        Constructor(final int index, final PermissibleType type) {
-            this.index = index;
-            this.type = type;
-        }
+    private record Constructor(int index, PermissibleType type) {
 
         String getRequiredPermission() {
             if (type == PermissibleType.RENAME)

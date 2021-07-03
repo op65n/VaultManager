@@ -23,13 +23,7 @@ import java.util.UUID;
  * contents: <serialized string>
  * name: <custom display name>
  */
-public final class FileImplementation implements DataProvider {
-
-    private final VaultManagerPlugin plugin;
-
-    public FileImplementation(final VaultManagerPlugin plugin) {
-        this.plugin = plugin;
-    }
+public record FileImplementation(VaultManagerPlugin plugin) implements DataProvider {
 
     @NotNull
     @Override

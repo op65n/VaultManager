@@ -1,5 +1,5 @@
 settings:
-  data-provider: DATABASE # FILE
+  data-provider: FILE # DATABASE
 
 message:
   invalid-vault-identifier:
