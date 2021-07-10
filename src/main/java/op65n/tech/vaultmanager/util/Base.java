@@ -141,7 +141,7 @@ public final class Base {
             ItemStack item = inventory.getItem(slot);
             if (item == null || item.getType() == Material.AIR) continue;
 
-            item = ItemNBT.removeNBTTag(item, "mf-gui");
+            ItemNBT.removeTag(item, "mf-gui");
 
             inventory.setItem(slot, item);
         }

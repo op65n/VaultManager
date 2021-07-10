@@ -2,12 +2,12 @@ package op65n.tech.vaultmanager.command.impl.user;
 
 import com.github.frcsty.frozenactions.wrapper.ActionHandler;
 import com.google.common.primitives.Ints;
+import dev.triumphteam.gui.guis.Gui;
 import me.mattstudios.mf.annotations.Alias;
 import me.mattstudios.mf.annotations.Command;
 import me.mattstudios.mf.annotations.CompleteFor;
 import me.mattstudios.mf.annotations.Default;
 import me.mattstudios.mf.base.CommandBase;
-import me.mattstudios.mfgui.gui.guis.Gui;
 import op65n.tech.vaultmanager.VaultManagerPlugin;
 import op65n.tech.vaultmanager.command.registerable.completion.CompletionCache;
 import op65n.tech.vaultmanager.data.object.VaultSnapshot;
@@ -28,7 +28,7 @@ import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
 @Command("privatevault")
-@Alias({"skrinja", "privatskrinja", "nzd-sucks-skrinja", "nzd-noce-convertat-shita-zato-morate-uporabljati-to-komando"})
+@Alias({"pv", "skrinja", "privatskrinja", "nzd-sucks-skrinja", "nzd-noce-convertat-shita-zato-morate-uporabljati-to-komando"})
 public final class PrivateVaultCommand extends CommandBase {
 
     private final DataProvider dataProvider;

@@ -1,8 +1,8 @@
 package op65n.tech.vaultmanager.data.object.impl;
 
 import com.github.frcsty.frozenactions.util.Color;
-import me.mattstudios.mfgui.gui.guis.Gui;
-import me.mattstudios.mfgui.gui.guis.GuiItem;
+import dev.triumphteam.gui.guis.Gui;
+import dev.triumphteam.gui.guis.GuiItem;
 import op65n.tech.vaultmanager.data.object.VaultSnapshot;
 import op65n.tech.vaultmanager.data.provider.DataProvider;
 import op65n.tech.vaultmanager.util.Base;
@@ -100,7 +100,9 @@ public final class VaultEditSessionImplementation implements VaultSnapshot {
         for (int slot = 0; slot < contents.length; slot++) {
             ItemStack item = contents[slot];
 
-            item = ItemNBT.setNBTTag(item, "mf-gui", null);
+            if (item == null) continue;
+
+            ItemNBT.removeTag(item, "mf-gui");
             result.put(slot, item);
         }
 

@@ -1,11 +1,11 @@
 package op65n.tech.vaultmanager.command.impl.admin;
 
+import dev.triumphteam.gui.guis.Gui;
 import me.mattstudios.mf.annotations.Alias;
 import me.mattstudios.mf.annotations.Command;
 import me.mattstudios.mf.annotations.Default;
 import me.mattstudios.mf.annotations.Permission;
 import me.mattstudios.mf.base.CommandBase;
-import me.mattstudios.mfgui.gui.guis.Gui;
 import op65n.tech.vaultmanager.VaultManagerPlugin;
 import op65n.tech.vaultmanager.data.object.VaultSnapshot;
 import op65n.tech.vaultmanager.data.object.impl.VaultEditSessionImplementation;

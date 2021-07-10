@@ -1,8 +1,8 @@
 package op65n.tech.vaultmanager.data.object;
 
 import com.github.frcsty.frozenactions.util.Color;
-import me.mattstudios.mfgui.gui.guis.Gui;
-import me.mattstudios.mfgui.gui.guis.GuiItem;
+import dev.triumphteam.gui.guis.Gui;
+import dev.triumphteam.gui.guis.GuiItem;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
